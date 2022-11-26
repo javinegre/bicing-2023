@@ -1,10 +1,13 @@
 import React from 'react';
+import Providers from './Providers';
 
 function App() {
   return (
-    <div className="App">
-      <h1>Bicing</h1>
-    </div>
+    <Providers>
+      <div className="App">
+        <h1>Bicing</h1>
+      </div>
+    </Providers>
   );
 }
 

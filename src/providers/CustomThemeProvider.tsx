@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
-import themeDark from '../themes/theme.dark';
 import { StyledEngineProvider, Theme, ThemeProvider, createTheme } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
+import themeDark from '@themes/theme.dark';
 
 declare module '@mui/material/styles' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface

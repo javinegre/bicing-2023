@@ -1,7 +1,7 @@
-import { dynamicallyLoadScript } from '../../utils/scripts';
-import config from './../../config';
 import { MapHandlerId } from './map.types';
+import config from '@config';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { dynamicallyLoadScript } from '@utils/scripts';
 
 const initializeMap = createAsyncThunk<
   { mapHandlerId: MapHandlerId; mapHandler: google.maps.Map },

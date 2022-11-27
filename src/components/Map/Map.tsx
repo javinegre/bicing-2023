@@ -1,8 +1,8 @@
 import React, { FC, useEffect, useRef } from 'react';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { loadGMaps, mapHandlerSelector, setZoom } from '../../store/map';
-import config from './../../config';
+import config from '@config';
 import Box from '@mui/material/Box/Box';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
+import { loadGMaps, mapHandlerSelector, setZoom } from '@store/map';
 
 const Map: FC = () => {
   const { mapId } = config.app;

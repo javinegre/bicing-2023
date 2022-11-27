@@ -1,6 +1,6 @@
-import type { RootState } from '../store';
 import { MapHandlerId } from './map.types';
 import { createDraftSafeSelector } from '@reduxjs/toolkit';
+import type { RootState } from '@store/store';
 
 const mapSelector = (state: RootState) => state.map;
 export const mapHandlerSelector = (mapHandlerId: MapHandlerId) =>

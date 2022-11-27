@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import CustomStoreProvider from './providers/CustomStoreProvider';
 import CustomThemeProvider from './providers/CustomThemeProvider';
 
 type ProvidersProps = {
@@ -6,7 +7,9 @@ type ProvidersProps = {
 };
 
 const Providers: FC<ProvidersProps> = ({ children }) => (
-  <CustomThemeProvider>{children}</CustomThemeProvider>
+  <CustomStoreProvider>
+    <CustomThemeProvider>{children}</CustomThemeProvider>
+  </CustomStoreProvider>
 );
 
 export default Providers;

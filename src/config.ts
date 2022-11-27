@@ -1,4 +1,5 @@
 import pkg from '../package.json';
+import mapOptions from './config/mapOptions';
 
 const config = {
   version: pkg.version,
@@ -8,8 +9,13 @@ const config = {
     google: {
       maps: {
         apiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
+        apiUrl: 'https://maps.googleapis.com/maps/api/js',
       },
     },
+  },
+  app: {
+    mapId: 'mainMap',
+    mapOptions,
   },
 };
 

@@ -1,5 +1,5 @@
-import pkg from '../package.json';
 import mapOptions from './config/mapOptions';
+import pkg from './package.json';
 
 const config = {
   version: pkg.version,

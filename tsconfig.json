@@ -17,8 +17,8 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
+      "@config": ["./config"],
       "@store/*": ["./src/store/*"],
-      "@config": ["./src/config"],
       "@utils/*": ["./src/utils/*"],
       "@themes/*": ["./src/themes/*"]
     }

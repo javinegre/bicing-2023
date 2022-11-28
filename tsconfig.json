@@ -20,6 +20,7 @@
       "@config": ["./config"],
       "@store/*": ["./src/store/*"],
       "@utils/*": ["./src/utils/*"],
+      "@hooks/*": ["./src/hooks/*"],
       "@themes/*": ["./src/themes/*"]
     }
   },

@@ -17,6 +17,10 @@ const config = {
     mapId: 'mainMap',
     mapOptions,
   },
+  api: {
+    baseUrl: 'https://negre.co/bicing/api',
+    version: 'v1.2',
+  },
 };
 
 export default config;

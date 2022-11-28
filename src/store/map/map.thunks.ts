@@ -1,6 +1,8 @@
 import { MapHandlerId } from './map.types';
 import config from '@config';
+import type { Station } from '@hooks/useStation';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { RootState } from '@store/store';
 import { dynamicallyLoadScript } from '@utils/scripts';
 
 const initializeMap = createAsyncThunk<
@@ -35,4 +37,16 @@ const loadGMaps = createAsyncThunk<void, { mapHandlerId: MapHandlerId; mapRef: H
   }
 );
 
-export { loadGMaps, initializeMap };
+const selectStation = createAsyncThunk<
+  Station['id'],
+  { mapHandlerId: MapHandlerId; station: Station }
+>('map/selectStation', async (payload, thunkAPI) => {
+  const { lat, lng, id } = payload.station;
+  const { mapHandlerId } = payload;
+
+  (thunkAPI.getState() as RootState).map.mapHandlers[mapHandlerId]?.setCenter({ lat, lng });
+
+  return id;
+});
+
+export { loadGMaps, initializeMap, selectStation };

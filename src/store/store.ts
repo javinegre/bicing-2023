@@ -1,9 +1,11 @@
+import { apiSlice } from './api/api.slice';
 import MapStoreReducer from './map/map.slice';
 import { configureStore } from '@reduxjs/toolkit';
 
 export const store = configureStore({
   reducer: {
     map: MapStoreReducer,
+    [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => [
     ...getDefaultMiddleware({
@@ -11,7 +13,7 @@ export const store = configureStore({
         ignoredActions: ['map/initializeMap/fulfilled'],
         ignoredPaths: ['map.mapHandlers'],
       },
-    }),
+    }).concat(apiSlice.middleware),
   ],
 });
 

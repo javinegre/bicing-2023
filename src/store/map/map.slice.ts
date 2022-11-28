@@ -1,4 +1,4 @@
-import { initializeMap, loadGMaps } from './map.thunks';
+import { initializeMap, loadGMaps, selectStation } from './map.thunks';
 import { MapHandlerId, MapStoreState } from './map.types';
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
@@ -6,6 +6,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 const initialState: MapStoreState = {
   mapHandlers: {},
   mapStatuses: {},
+  selectedStation: null,
 };
 
 export const mapSlice = createSlice({
@@ -24,6 +25,9 @@ export const mapSlice = createSlice({
     builder.addCase(initializeMap.fulfilled, (state, action) => {
       state.mapHandlers[action.payload.mapHandlerId] = action.payload.mapHandler;
       state.mapStatuses[action.payload.mapHandlerId] = 'IDLE';
+    });
+    builder.addCase(selectStation.fulfilled, (state, action) => {
+      state.selectedStation = action.payload;
     });
   },
 });

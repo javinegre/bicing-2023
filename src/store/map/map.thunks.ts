@@ -13,6 +13,8 @@ const initializeMap = createAsyncThunk<
 
   const mapHandler: google.maps.Map = new window.google.maps.Map(mapRef, config.app.mapOptions);
 
+  window.googleMapsReady = true;
+
   return { mapHandlerId, mapHandler };
 });
 

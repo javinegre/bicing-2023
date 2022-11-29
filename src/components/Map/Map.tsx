@@ -26,24 +26,26 @@ const Map: FC = () => {
 
   useLayoutEffect(() => {
     stations?.forEach((station) => {
-      const newMarker = new google.maps.Marker({
-        map: mapHandler as google.maps.Map,
-        position: { lat: station.lat, lng: station.lng },
-      });
+      if (window.googleMapsReady) {
+        const newMarker = new google.maps.Marker({
+          map: mapHandler as google.maps.Map,
+          position: { lat: station.lat, lng: station.lng },
+        });
 
-      newMarker.setValues({
-        id: station.id,
-      });
+        newMarker.setValues({
+          id: station.id,
+        });
 
-      const clickEvent = () => {
-        dispatch(selectStation({ mapHandlerId: mapId, station }));
-      };
+        const clickEvent = () => {
+          dispatch(selectStation({ mapHandlerId: mapId, station }));
+        };
 
-      if (clickEvent) {
-        newMarker.addListener('click', clickEvent);
+        if (clickEvent) {
+          newMarker.addListener('click', clickEvent);
+        }
+
+        return newMarker as MarkerWithMetaData;
       }
-
-      return newMarker as MarkerWithMetaData;
     });
   }, [mapHandler, stations]);
 

@@ -19,7 +19,7 @@ const config = {
   },
   api: {
     baseUrl: 'https://negre.co/bicing/api',
-    version: 'v1.2',
+    version: 'v1.3',
   },
 };
 

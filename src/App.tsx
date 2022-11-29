@@ -8,12 +8,12 @@ const App = () => {
 
   appDispatch(
     apiSlice.endpoints.stationInfo.initiate('station-info', {
-      subscriptionOptions: { pollingInterval: 60 * 60 * 1000 },
+      subscriptionOptions: { pollingInterval: 60 * 60 * 1000 }, // 1h
     })
   );
   appDispatch(
     apiSlice.endpoints.stationStatus.initiate('station-status', {
-      subscriptionOptions: { pollingInterval: 60 * 1000 },
+      subscriptionOptions: { pollingInterval: 30 * 1000 }, // 30s
     })
   );
 

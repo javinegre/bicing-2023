@@ -1,37 +1,39 @@
-import { initializeMap, loadGMaps, selectStation } from './map.thunks';
-import { MapHandlerId, MapStoreState } from './map.types';
+import { initializeMap, loadGMaps } from './map.thunks';
+import { MapStoreState } from './map.types';
+import config from '@config';
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import { MapsCoordinates } from 'src/components/InfoBar/InfoBar.helpers';
 
 const initialState: MapStoreState = {
-  mapHandlers: {},
-  mapStatuses: {},
-  selectedStation: null,
+  mapHandler: null,
+  mapStatus: 'IDLE',
+  center: config.app.mapOptions.center,
+  zoom: config.app.mapOptions.zoom,
 };
 
 export const mapSlice = createSlice({
   name: 'map',
   initialState,
   reducers: {
-    setZoom: (state, action: PayloadAction<{ mapHandlerId: MapHandlerId; zoom: number }>) => {
-      state.mapHandlers[action.payload.mapHandlerId]?.setZoom(action.payload.zoom);
+    setCenter: (state, action: PayloadAction<MapsCoordinates>) => {
+      state.center = action.payload;
+    },
+    setZoom: (state, action: PayloadAction<number>) => {
+      state.zoom = action.payload;
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(loadGMaps.pending, (state, action) => {
-      action.meta.arg.mapHandlerId;
-      state.mapStatuses[action.meta.arg.mapHandlerId] = 'LOADING';
+    builder.addCase(loadGMaps.pending, (state) => {
+      state.mapStatus = 'LOADING';
     });
     builder.addCase(initializeMap.fulfilled, (state, action) => {
-      state.mapHandlers[action.payload.mapHandlerId] = action.payload.mapHandler;
-      state.mapStatuses[action.payload.mapHandlerId] = 'IDLE';
-    });
-    builder.addCase(selectStation.fulfilled, (state, action) => {
-      state.selectedStation = action.payload;
+      state.mapHandler = action.payload;
+      state.mapStatus = 'IDLE';
     });
   },
 });
 
-export const { setZoom } = mapSlice.actions;
+export const { setCenter, setZoom } = mapSlice.actions;
 
 export default mapSlice.reducer;

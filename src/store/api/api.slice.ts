@@ -17,12 +17,17 @@ interface ApiStationInfoResponse {
 export type StationInfoItem = ApiStationInfoItemResponse;
 export type StationInfo = ApiStationInfoResponse;
 
+export enum StationStatusEnum {
+  inactive,
+  active,
+}
+
 interface ApiStationStatusItemResponse {
   i: number;
   e: number;
   m: number;
   d: number;
-  s: number;
+  s: StationStatusEnum.inactive | StationStatusEnum.active;
 }
 
 interface StationStatusApiResponse {

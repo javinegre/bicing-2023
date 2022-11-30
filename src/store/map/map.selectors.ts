@@ -1,11 +1,13 @@
-import { MapHandlerId } from './map.types';
 import { createDraftSafeSelector } from '@reduxjs/toolkit';
 import type { RootState } from '@store/store';
 
 const mapSelector = (state: RootState) => state.map;
-export const mapHandlerSelector = (mapHandlerId: MapHandlerId) =>
-  createDraftSafeSelector(mapSelector, (mapState) => mapState.mapHandlers?.[mapHandlerId]);
-export const selectedStationSelector = createDraftSafeSelector(
+export const mapHandlerSelector = createDraftSafeSelector(
   mapSelector,
-  (mapState) => mapState.selectedStation
+  (mapState) => mapState.mapHandler
 );
+export const mapCenterSelector = createDraftSafeSelector(
+  mapSelector,
+  (mapState) => mapState.center
+);
+export const mapZoomSelector = createDraftSafeSelector(mapSelector, (mapState) => mapState.zoom);

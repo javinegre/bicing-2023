@@ -14,8 +14,11 @@ const config = {
     },
   },
   app: {
-    mapId: 'mainMap',
     mapOptions,
+    nearbyAreaRadius: {
+      lat: 0.0030375,
+      lng: 0.00405,
+    },
   },
   api: {
     baseUrl: 'https://negre.co/bicing/api',

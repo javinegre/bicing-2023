@@ -1,24 +1,12 @@
-import { MapHandlerId } from './map.types';
+import { MapsCoordinates } from './../../components/InfoBar/InfoBar.helpers';
 import config from '@config';
-import type { Station } from '@hooks/useStation';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { setCenter, setZoom } from '@store/map';
 import { RootState } from '@store/store';
 import { dynamicallyLoadScript } from '@utils/scripts';
+import { getMapHandlerCenterCoordinates } from 'src/helpers/map.helpers';
 
-const initializeMap = createAsyncThunk<
-  { mapHandlerId: MapHandlerId; mapHandler: google.maps.Map },
-  { mapHandlerId: MapHandlerId; mapRef: HTMLElement }
->('map/initializeMap', async (payload) => {
-  const { mapHandlerId, mapRef } = payload;
-
-  const mapHandler: google.maps.Map = new window.google.maps.Map(mapRef, config.app.mapOptions);
-
-  window.googleMapsReady = true;
-
-  return { mapHandlerId, mapHandler };
-});
-
-const loadGMaps = createAsyncThunk<void, { mapHandlerId: MapHandlerId; mapRef: HTMLElement }>(
+const loadGMaps = createAsyncThunk<void, HTMLElement>(
   'map/loadGMaps',
   async (payload, thunkAPI) => {
     const googleMapsConfig = config.vendor.google.maps;
@@ -39,16 +27,40 @@ const loadGMaps = createAsyncThunk<void, { mapHandlerId: MapHandlerId; mapRef: H
   }
 );
 
-const selectStation = createAsyncThunk<
-  Station['id'],
-  { mapHandlerId: MapHandlerId; station: Station }
->('map/selectStation', async (payload, thunkAPI) => {
-  const { lat, lng, id } = payload.station;
-  const { mapHandlerId } = payload;
+const initializeMap = createAsyncThunk<google.maps.Map, HTMLElement>(
+  'map/initializeMap',
+  async (payload, thunkApi) => {
+    const mapHandler: google.maps.Map = new window.google.maps.Map(payload, config.app.mapOptions);
 
-  (thunkAPI.getState() as RootState).map.mapHandlers[mapHandlerId]?.setCenter({ lat, lng });
+    mapHandler.addListener('zoom_changed', () => {
+      const zoom = mapHandler.getZoom();
+      if (zoom) {
+        thunkApi.dispatch(setZoom(zoom));
+      }
+    });
 
-  return id;
-});
+    mapHandler.addListener('center_changed', () => {
+      thunkApi.dispatch(setCenter(getMapHandlerCenterCoordinates(mapHandler)));
+    });
 
-export { loadGMaps, initializeMap, selectStation };
+    window.googleMapsReady = true;
+
+    return mapHandler;
+  }
+);
+
+const setGMapsCenter = createAsyncThunk<void, MapsCoordinates>(
+  'map/setGMapsCenter',
+  async (payload, thunkAPI) => {
+    (thunkAPI.getState() as RootState).map.mapHandler?.setCenter(payload);
+  }
+);
+
+const setGMapsZoom = createAsyncThunk<void, number>(
+  'map/setGMapsZoom',
+  async (payload, thunkAPI) => {
+    (thunkAPI.getState() as RootState).map.mapHandler?.setZoom(payload);
+  }
+);
+
+export { loadGMaps, initializeMap, setGMapsCenter, setGMapsZoom };

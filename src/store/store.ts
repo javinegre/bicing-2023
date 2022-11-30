@@ -1,17 +1,19 @@
 import { apiSlice } from './api/api.slice';
 import MapStoreReducer from './map/map.slice';
+import UiStoreReducer from './ui/ui.slice';
 import { configureStore } from '@reduxjs/toolkit';
 
 export const store = configureStore({
   reducer: {
     map: MapStoreReducer,
+    ui: UiStoreReducer,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => [
     ...getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: ['map/initializeMap/fulfilled'],
-        ignoredPaths: ['map.mapHandlers'],
+        ignoredPaths: ['map.mapHandler'],
       },
     }).concat(apiSlice.middleware),
   ],

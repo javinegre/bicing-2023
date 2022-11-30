@@ -1,59 +1,24 @@
-import React, { FC, useEffect, useLayoutEffect, useRef } from 'react';
-import { MarkerWithMetaData } from './Map.types';
-import config from '@config';
-import useStation from '@hooks/useStation';
+import React, { FC } from 'react';
+import InfoBar from '../InfoBar/InfoBar';
+import MapCanvas from '../MapCanvas/MapCanvas';
+import MapControls from '../MapControls/MapControls';
 import Box from '@mui/material/Box/Box';
-import { useAppDispatch, useAppSelector } from '@store/hooks';
-import { loadGMaps, mapHandlerSelector, selectStation, selectedStationSelector } from '@store/map';
+import { SxProps, Theme } from '@mui/material/styles';
+import { useAppSelector } from '@store/hooks';
+import { selectedStationSelector } from '@store/ui';
+
+const sx: SxProps<Theme> = { position: 'relative', width: '100vw' };
 
 const Map: FC = () => {
-  const { mapId } = config.app;
-
-  const mapHandler = useAppSelector(mapHandlerSelector(mapId));
   const selectedStation = useAppSelector(selectedStationSelector);
-  const dispatch = useAppDispatch();
 
-  const mapRef = useRef<HTMLDivElement>();
-
-  const stations = useStation();
-
-  useEffect(() => {
-    console.log(mapRef.current);
-    if (mapRef.current !== undefined) {
-      dispatch(loadGMaps({ mapHandlerId: mapId, mapRef: mapRef.current }));
-    }
-  }, [mapRef]);
-
-  useLayoutEffect(() => {
-    stations?.forEach((station) => {
-      if (window.googleMapsReady) {
-        const newMarker = new google.maps.Marker({
-          map: mapHandler as google.maps.Map,
-          position: { lat: station.lat, lng: station.lng },
-        });
-
-        newMarker.setValues({
-          id: station.id,
-        });
-
-        const clickEvent = () => {
-          dispatch(selectStation({ mapHandlerId: mapId, station }));
-        };
-
-        if (clickEvent) {
-          newMarker.addListener('click', clickEvent);
-        }
-
-        return newMarker as MarkerWithMetaData;
-      }
-    });
-  }, [mapHandler, stations]);
+  sx.height = selectedStation !== null ? '50vh' : '100vh';
 
   return (
-    <Box>
-      Map
-      {selectedStation}
-      <Box sx={{ width: 600, height: 600 }} ref={mapRef}></Box>
+    <Box sx={sx}>
+      <MapCanvas />
+      <MapControls />
+      <InfoBar />
     </Box>
   );
 };

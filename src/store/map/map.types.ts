@@ -1,9 +1,8 @@
-import type { Station } from '@hooks/useStation';
-
-export type MapHandlerId = string;
+import { MapsCoordinates } from 'src/components/InfoBar/InfoBar.helpers';
 
 export interface MapStoreState {
-  mapHandlers: Record<MapHandlerId, google.maps.Map | null>;
-  mapStatuses: Record<MapHandlerId, 'LOADING' | 'IDLE' | 'FAILED'>;
-  selectedStation: Station['id'] | null;
+  mapHandler: google.maps.Map | null;
+  mapStatus: 'LOADING' | 'IDLE' | 'FAILED';
+  center: MapsCoordinates;
+  zoom: number;
 }

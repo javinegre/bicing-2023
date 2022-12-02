@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import config from '@config';
 import useStation from '@hooks/useStation';
 import Box from '@mui/material/Box/Box';
 import Paper from '@mui/material/Paper/Paper';
@@ -50,11 +51,14 @@ const InfoBar = () => {
   return (
     <Paper sx={sx} variant="elevation">
       {totals ? (
-        <Box display="flex">
-          <Box mr={2}>{totals.mechanical + totals.electrical} B</Box>
-          <Box mr={1}>{totals.mechanical} M</Box>
-          <Box mr={3}>{totals.electrical} E</Box>
-          <Box>{totals.docks} D</Box>
+        <Box display="flex" justifyContent="space-between">
+          <Box display="flex">
+            <Box mr={2}>{totals.mechanical + totals.electrical} B</Box>
+            <Box mr={1}>{totals.mechanical} M</Box>
+            <Box mr={3}>{totals.electrical} E</Box>
+            <Box>{totals.docks} D</Box>
+          </Box>
+          <Box>v{config.version}</Box>
         </Box>
       ) : null}
     </Paper>

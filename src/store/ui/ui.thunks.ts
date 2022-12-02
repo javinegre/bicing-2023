@@ -1,16 +1,24 @@
-import type { Station } from '@hooks/useStation';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { setGMapsCenter } from '@store/map';
+import { RootState } from '@store/store';
+import { Station } from 'src/types';
 
-const selectStation = createAsyncThunk<Station['id'], Station>(
+const selectStation = createAsyncThunk<Station, Station>(
   'map/selectStation',
   async (payload, thunkAPI) => {
-    const { lat, lng, id } = payload;
+    const { lat, lng } = payload;
 
-    thunkAPI.dispatch(setGMapsCenter({ lat, lng }));
+    thunkAPI.dispatch(setGMapsCenter({ center: { lat, lng }, applyOffset: true }));
 
-    return id;
+    return payload;
   }
 );
 
-export { selectStation };
+const unselectStation = createAsyncThunk<void, void>('map/unselectStation', async (_, thunkAPI) => {
+  const { center } = (thunkAPI.getState() as RootState).map;
+  const { lat, lng } = center;
+
+  thunkAPI.dispatch(setGMapsCenter({ center: { lat, lng }, applyOffset: false }));
+});
+
+export { selectStation, unselectStation };

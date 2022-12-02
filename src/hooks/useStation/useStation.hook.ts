@@ -1,10 +1,6 @@
 import { useMemo } from 'react';
-import type { Station } from './useStation.hook.types';
-import {
-  StationStatusItem,
-  useStationInfoQuery,
-  useStationStatusQuery,
-} from '@store/api/api.slice';
+import { useStationInfoQuery, useStationStatusQuery } from '@store/api/api.slice';
+import type { Station, StationStatusItem } from 'src/types';
 
 const useStation = () => {
   const { data: stationsInfo } = useStationInfoQuery('station-info');

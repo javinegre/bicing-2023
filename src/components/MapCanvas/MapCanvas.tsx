@@ -1,11 +1,14 @@
 import React, { FC, useEffect, useLayoutEffect, useRef } from 'react';
 import { MarkerWithMetaData } from './MapCanvas.types';
+import { getStationMarkerIcon } from '@components/Icons/Icons.helpers';
 import useStation from '@hooks/useStation';
 import Box from '@mui/material/Box/Box';
 import { SxProps, Theme } from '@mui/material/styles';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
-import { loadGMaps, mapHandlerSelector } from '@store/map';
+import { loadGMaps, mapHandlerSelector, mapZoomSelector } from '@store/map';
 import { selectStation } from '@store/ui';
+import { StationResourceTypeEnum } from 'src/types';
+import type { Station } from 'src/types';
 
 const sx: SxProps<Theme> = {
   position: 'absolute',
@@ -18,7 +21,9 @@ const sx: SxProps<Theme> = {
 
 const MapCanvas: FC = () => {
   const mapHandler = useAppSelector(mapHandlerSelector);
+  const zoom = useAppSelector(mapZoomSelector);
   const dispatch = useAppDispatch();
+  const markers = useRef<Record<Station['id'], MarkerWithMetaData | undefined>>({});
 
   const mapRef = useRef<HTMLDivElement>();
 
@@ -33,27 +38,32 @@ const MapCanvas: FC = () => {
   useLayoutEffect(() => {
     stations?.forEach((station) => {
       if (window.googleMapsReady) {
-        const newMarker = new google.maps.Marker({
-          map: mapHandler as google.maps.Map,
-          position: { lat: station.lat, lng: station.lng },
-        });
+        const marker = markers.current[station.id];
 
-        newMarker.setValues({
-          id: station.id,
-        });
+        const markerIcon = getStationMarkerIcon(station, StationResourceTypeEnum.bikes, null, zoom);
 
-        const clickEvent = () => {
-          dispatch(selectStation(station));
-        };
+        if (marker) {
+          marker.setIcon(markerIcon);
+        } else {
+          const newMarker = new google.maps.Marker({
+            map: mapHandler as google.maps.Map,
+            position: { lat: station.lat, lng: station.lng },
+            icon: markerIcon,
+          });
 
-        if (clickEvent) {
-          newMarker.addListener('click', clickEvent);
+          newMarker.setValues({
+            id: station.id,
+          });
+
+          newMarker.addListener('click', () => {
+            dispatch(selectStation(station));
+          });
+
+          markers.current[station.id] = newMarker as MarkerWithMetaData;
         }
-
-        return newMarker as MarkerWithMetaData;
       }
     });
-  }, [mapHandler, stations]);
+  }, [mapHandler, stations, zoom, markers.current]);
 
   return <Box sx={sx} ref={mapRef}></Box>;
 };

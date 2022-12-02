@@ -1,54 +1,7 @@
+import type { StationStatusApiResponse } from './api.types';
 import config from '@config';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
-interface ApiStationInfoItemResponse {
-  id: number;
-  lat: number;
-  lng: number;
-  name: string;
-}
-
-interface ApiStationInfoResponse {
-  lastUpdated: number;
-  stations: ApiStationInfoItemResponse[];
-  success: boolean;
-}
-
-export type StationInfoItem = ApiStationInfoItemResponse;
-export type StationInfo = ApiStationInfoResponse;
-
-export enum StationStatusEnum {
-  inactive,
-  active,
-}
-
-interface ApiStationStatusItemResponse {
-  i: number;
-  e: number;
-  m: number;
-  d: number;
-  s: StationStatusEnum.inactive | StationStatusEnum.active;
-}
-
-interface StationStatusApiResponse {
-  lastUpdated: number;
-  stations: ApiStationStatusItemResponse[];
-  success: boolean;
-}
-
-export interface StationStatusItem {
-  id: number;
-  electrical: number;
-  mechanical: number;
-  docks: number;
-  status: number;
-}
-
-export interface StationStatus {
-  lastUpdated: number;
-  stations: StationStatusItem[];
-  success: boolean;
-}
+import type { StationInfo, StationStatus } from 'src/types';
 
 const baseUrl = `${config.api.baseUrl}/${config.api.version}`;
 

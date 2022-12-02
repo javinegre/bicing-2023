@@ -1,7 +1,9 @@
 import React from 'react';
-import MapZoom from '../MapZoom/MapZoom';
+import MapZoom from '@components/MapZoom/MapZoom';
 import Box from '@mui/material/Box/Box';
 import { SxProps, Theme } from '@mui/material/styles';
+import { useAppSelector } from '@store/hooks';
+import { viewModeSelector } from '@store/ui';
 
 const sx: SxProps<Theme> = {
   position: 'absolute',
@@ -14,11 +16,9 @@ const sx: SxProps<Theme> = {
 };
 
 const MapControls = () => {
-  return (
-    <Box sx={sx}>
-      <MapZoom />
-    </Box>
-  );
+  const viewMode = useAppSelector(viewModeSelector);
+
+  return <Box sx={sx}>{viewMode === 'default' ? <MapZoom /> : null}</Box>;
 };
 
 export default MapControls;

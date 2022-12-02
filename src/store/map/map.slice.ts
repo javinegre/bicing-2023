@@ -3,7 +3,7 @@ import { MapStoreState } from './map.types';
 import config from '@config';
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { MapsCoordinates } from 'src/components/InfoBar/InfoBar.helpers';
+import { MapCoordinates } from 'src/types';
 
 const initialState: MapStoreState = {
   mapHandler: null,
@@ -16,7 +16,7 @@ export const mapSlice = createSlice({
   name: 'map',
   initialState,
   reducers: {
-    setCenter: (state, action: PayloadAction<MapsCoordinates>) => {
+    setCenter: (state, action: PayloadAction<MapCoordinates>) => {
       state.center = action.payload;
     },
     setZoom: (state, action: PayloadAction<number>) => {

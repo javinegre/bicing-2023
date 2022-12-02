@@ -1,8 +1,8 @@
-import { MapsCoordinates } from 'src/components/InfoBar/InfoBar.helpers';
+import { MapCoordinates } from 'src/types';
 
 export interface MapStoreState {
   mapHandler: google.maps.Map | null;
   mapStatus: 'LOADING' | 'IDLE' | 'FAILED';
-  center: MapsCoordinates;
+  center: MapCoordinates;
   zoom: number;
 }

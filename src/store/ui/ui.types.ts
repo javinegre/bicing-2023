@@ -1,5 +1,5 @@
-import type { Station } from '@hooks/useStation';
+import type { Station } from 'src/types';
 
 export interface UiStoreState {
-  selectedStation: Station['id'] | null;
+  selectedStation: Station | null;
 }

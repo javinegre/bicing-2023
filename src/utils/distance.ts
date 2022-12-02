@@ -1,12 +1,12 @@
 import config from '@config';
-import { Station } from '@hooks/useStation';
+import type { MapCoordinates, Station } from 'src/types';
 
-export interface MapsCoordinates {
-  lat: number;
-  lng: number;
-}
+export const getStationDistance = (station: Station, center: MapCoordinates) =>
+  Math.sqrt((center.lat - station.lat) ** 2 + (center.lng - station.lng) ** 2);
 
-export const isInNearbyArea: (point: Station, center: MapsCoordinates) => boolean = (
+/* -------------------------------------------------------------------------- */
+
+export const isInNearbyArea: (point: Station, center: MapCoordinates) => boolean = (
   point,
   center
 ) => {

@@ -1,6 +1,9 @@
 import React from 'react';
+import DetailCard from './components/DetailCard/DetailCard';
+import InfoBar from './components/InfoBar/InfoBar';
 import Map from './components/Map/Map';
 import { apiSlice } from './store/api/api.slice';
+import Box from '@mui/material/Box/Box';
 import { useAppDispatch } from '@store/hooks';
 
 const App = () => {
@@ -18,9 +21,11 @@ const App = () => {
   );
 
   return (
-    <div className="App">
+    <Box sx={{ position: 'relative' }}>
       <Map />
-    </div>
+      <InfoBar />
+      <DetailCard />
+    </Box>
   );
 };
 

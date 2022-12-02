@@ -1,10 +1,10 @@
-import { MapsCoordinates } from './../../components/InfoBar/InfoBar.helpers';
 import config from '@config';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { setCenter, setZoom } from '@store/map';
 import { RootState } from '@store/store';
 import { dynamicallyLoadScript } from '@utils/scripts';
 import { getMapHandlerCenterCoordinates } from 'src/helpers/map.helpers';
+import { MapCoordinates } from 'src/types';
 
 const loadGMaps = createAsyncThunk<void, HTMLElement>(
   'map/loadGMaps',
@@ -49,10 +49,14 @@ const initializeMap = createAsyncThunk<google.maps.Map, HTMLElement>(
   }
 );
 
-const setGMapsCenter = createAsyncThunk<void, MapsCoordinates>(
+const setGMapsCenter = createAsyncThunk<void, { center: MapCoordinates; applyOffset: boolean }>(
   'map/setGMapsCenter',
   async (payload, thunkAPI) => {
-    (thunkAPI.getState() as RootState).map.mapHandler?.setCenter(payload);
+    const baseOffset = window.innerHeight / 4;
+    const yOffset = payload.applyOffset ? baseOffset : -baseOffset;
+
+    (thunkAPI.getState() as RootState).map.mapHandler?.setCenter(payload.center);
+    (thunkAPI.getState() as RootState).map.mapHandler?.panBy(0, yOffset);
   }
 );
 

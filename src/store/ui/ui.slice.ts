@@ -1,4 +1,4 @@
-import { selectStation } from './ui.thunks';
+import { selectStation, unselectStation } from './ui.thunks';
 import { UiStoreState } from './ui.types';
 import { createSlice } from '@reduxjs/toolkit';
 
@@ -9,18 +9,17 @@ const initialState: UiStoreState = {
 export const mapSlice = createSlice({
   name: 'ui',
   initialState,
-  reducers: {
-    unselectStation: (state) => {
-      state.selectedStation = null;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(selectStation.fulfilled, (state, action) => {
       state.selectedStation = action.payload;
     });
+    builder.addCase(unselectStation.fulfilled, (state) => {
+      state.selectedStation = null;
+    });
   },
 });
 
-export const { unselectStation } = mapSlice.actions;
+// export const { } = mapSlice.actions;
 
 export default mapSlice.reducer;

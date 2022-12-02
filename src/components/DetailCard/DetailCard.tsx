@@ -20,8 +20,8 @@ import type { Station } from 'src/types';
 
 const sx: SxProps<Theme> = {
   position: 'absolute',
-  top: '50vh',
-  height: 'calc(50vh - 8px)',
+  top: '50%',
+  height: 'calc(50% - 8px)',
   left: 8,
   right: 8,
   px: 2,
@@ -52,7 +52,7 @@ const DetailCard = () => {
   const theme = useTheme();
 
   sx.bgcolor = alpha(theme.palette.background.default, 0.98);
-  sx.transform = viewMode === 'detail' ? 'translateY(0)' : 'translateY(60vh)';
+  sx.transform = viewMode === 'detail' ? 'translateY(0)' : 'translateY(120%)';
   sx.transition = theme.transitions.create(['transform']);
 
   return (

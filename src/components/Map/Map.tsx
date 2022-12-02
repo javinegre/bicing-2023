@@ -7,12 +7,12 @@ import { SxProps, Theme } from '@mui/material/styles';
 import { useAppSelector } from '@store/hooks';
 import { selectedStationSelector } from '@store/ui';
 
-const sx: SxProps<Theme> = { position: 'relative', width: '100vw', height: '100vh' };
+const sx: SxProps<Theme> = { position: 'relative', width: '100vw', height: '100%' };
 
 const Map: FC = () => {
   const selectedStation = useAppSelector(selectedStationSelector);
 
-  const mapAreaHeight = selectedStation !== null ? '50vh' : '100vh';
+  const mapAreaHeight = selectedStation !== null ? '50%' : '100%';
 
   return (
     <Box sx={sx}>

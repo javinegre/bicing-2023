@@ -1,4 +1,5 @@
 import React from 'react';
+import './App.css';
 import DetailCard from './components/DetailCard/DetailCard';
 import InfoBar from './components/InfoBar/InfoBar';
 import Map from './components/Map/Map';
@@ -21,7 +22,7 @@ const App = () => {
   );
 
   return (
-    <Box sx={{ position: 'relative' }}>
+    <Box className="App" sx={{ position: 'relative' }}>
       <Map />
       <InfoBar />
       <DetailCard />

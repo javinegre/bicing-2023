@@ -5,7 +5,23 @@ import InfoBar from './components/InfoBar/InfoBar';
 import Map from './components/Map/Map';
 import { apiSlice } from './store/api/api.slice';
 import Box from '@mui/material/Box/Box';
+import { SxProps, Theme } from '@mui/material/styles';
 import { useAppDispatch } from '@store/hooks';
+
+const sx: SxProps<Theme> = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+};
+
+const sxAppWrapper: SxProps<Theme> = {
+  position: 'relative',
+  width: '100%',
+  height: '100%',
+  maxWidth: 450,
+  maxHeight: 1000,
+  overflow: 'hidden',
+};
 
 const App = () => {
   const appDispatch = useAppDispatch();
@@ -22,10 +38,12 @@ const App = () => {
   );
 
   return (
-    <Box className="App" sx={{ position: 'relative' }}>
-      <Map />
-      <InfoBar />
-      <DetailCard />
+    <Box className="App" sx={sx}>
+      <Box sx={sxAppWrapper}>
+        <Map />
+        <InfoBar />
+        <DetailCard />
+      </Box>
     </Box>
   );
 };

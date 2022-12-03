@@ -7,7 +7,11 @@ import { SxProps, Theme } from '@mui/material/styles';
 import { useAppSelector } from '@store/hooks';
 import { selectedStationSelector } from '@store/ui';
 
-const sx: SxProps<Theme> = { position: 'relative', width: '100vw', height: '100%' };
+const sx: SxProps<Theme> = {
+  position: 'relative',
+  width: '100%',
+  height: '100%',
+};
 
 const Map: FC = () => {
   const selectedStation = useAppSelector(selectedStationSelector);

@@ -1,22 +1,15 @@
-import React, { useMemo } from 'react';
-import StationStatusBar from '@components/StationStatusBar/StationStatusBar';
+import React, { useEffect, useMemo, useRef } from 'react';
+import { getStationList } from './DetailCard.helpers';
+import StationDetail from '@components/StationDetail/StationDetail';
+import StationList from '@components/StationList/StationList';
 import useStation from '@hooks/useStation';
 import Box from '@mui/material/Box/Box';
 import Card from '@mui/material/Card/Card';
 import IconButton from '@mui/material/IconButton/IconButton';
-import List from '@mui/material/List/List';
-import ListItem from '@mui/material/ListItem/ListItem';
 import Typography from '@mui/material/Typography/Typography';
 import { SxProps, Theme, alpha, useTheme } from '@mui/material/styles';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
-import {
-  selectStation,
-  selectedStationSelector,
-  unselectStation,
-  viewModeSelector,
-} from '@store/ui';
-import { getStationDistance, isInNearbyArea } from '@utils/distance';
-import type { Station } from 'src/types';
+import { selectedStationSelector, unselectStation, viewModeSelector } from '@store/ui';
 
 const sx: SxProps<Theme> = {
   position: 'absolute',
@@ -24,79 +17,60 @@ const sx: SxProps<Theme> = {
   height: 'calc(50% - 8px)',
   left: 8,
   right: 8,
+  display: 'flex',
+  flexDirection: 'column',
   px: 2,
   py: 1,
-  overflowY: 'auto',
   zIndex: 5,
 };
 
 const DetailCard = () => {
   const selectedStation = useAppSelector(selectedStationSelector);
   const viewMode = useAppSelector(viewModeSelector);
+  const dispatch = useAppDispatch();
+
+  const listRef = useRef<HTMLDivElement | null>(null);
 
   const stations = useStation();
 
-  const nearbyStations = useMemo(() => {
-    const center = { lat: selectedStation?.lat ?? 0, lng: selectedStation?.lng ?? 0 };
-
-    return stations?.reduce<(Station & { distance: number })[]>((acc, station) => {
-      if (isInNearbyArea(station, center) && station.id !== selectedStation?.id) {
-        return [...acc, { ...station, distance: getStationDistance(station, center) }];
-      }
-
-      return acc;
-    }, []);
-  }, [selectedStation, stations]);
-
-  const dispatch = useAppDispatch();
   const theme = useTheme();
+
+  useEffect(() => {
+    if (listRef.current?.scrollTop) {
+      // Reset scroll when data changes
+      listRef.current.scrollTop = 0;
+    }
+  }, [selectedStation]);
+
+  const stationList = useMemo(
+    () => getStationList(selectedStation, stations),
+    [selectedStation, stations]
+  );
 
   sx.bgcolor = alpha(theme.palette.background.default, 0.98);
   sx.transform = viewMode === 'detail' ? 'translateY(0)' : 'translateY(120%)';
   sx.transition = theme.transitions.create(['transform']);
 
+  const nearbyStations = stationList?.nearby ?? [];
+  const otherStations = (stationList?.other ?? []).slice(0, 20);
+
   return (
     <Card sx={sx}>
       {selectedStation ? (
-        <Box sx={{ mb: 1 }}>
-          <Typography variant="h6">{selectedStation.name}</Typography>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Box sx={{ display: 'flex' }}>
-              <Typography variant="h5" mr={2}>
-                {selectedStation.mechanical + selectedStation.electrical} B
-              </Typography>
-              <Typography variant="h6" mr={1}>
-                {selectedStation.mechanical} M
-              </Typography>
-              <Typography variant="h6">{selectedStation.electrical} E</Typography>
-            </Box>
-            <Box>
-              <Typography variant="h5">{selectedStation.docks} D</Typography>
-            </Box>
-          </Box>
-          <StationStatusBar station={selectedStation} size="default" />
+        <Box
+          sx={{
+            mb: 3,
+          }}
+        >
+          <StationDetail station={selectedStation} />
         </Box>
       ) : null}
-      {nearbyStations?.length ? (
-        <List>
-          {nearbyStations.map((station) => (
-            <ListItem
-              key={station.id}
-              sx={{ display: 'flex', px: 0 }}
-              onClick={() => dispatch(selectStation(station))}
-            >
-              <Box sx={{ width: '35%' }}>
-                <Typography variant="body2" noWrap>
-                  {station.name}
-                </Typography>
-              </Box>
-              <Box sx={{ width: '65%', pl: 2 }}>
-                <StationStatusBar station={station} size="small" />
-              </Box>
-            </ListItem>
-          ))}
-        </List>
-      ) : null}
+      <Box ref={listRef} sx={{ overflowY: 'scroll' }}>
+        {nearbyStations?.length ? (
+          <StationList title="Closest Stations" list={nearbyStations} />
+        ) : null}
+        {otherStations?.length ? <StationList title="Other Stations" list={otherStations} /> : null}
+      </Box>
       <IconButton
         sx={{ position: 'absolute', top: 0, right: 0 }}
         color="primary"

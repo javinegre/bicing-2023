@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import CrossHairIconSvg from '@assets/icons/hints/crosshair.svg';
 import config from '@config';
 import Box from '@mui/material/Box/Box';
 import { useAppSelector } from '@store/hooks';
@@ -8,8 +9,6 @@ const MapHints: FC = () => {
   const zoom = useAppSelector(mapZoomSelector);
 
   const nearbyAreaDiameter: number | undefined = config.app.nearbyAreaHintDiameter[zoom];
-
-  const crossSize = zoom <= 14 ? 2 : 4;
 
   return (
     <>
@@ -45,23 +44,8 @@ const MapHints: FC = () => {
               opacity="0.4"
               strokeDasharray="5"
             />
-            <path
-              d={`M${nearbyAreaDiameter / 2} ${nearbyAreaDiameter / 2 - crossSize} L${
-                nearbyAreaDiameter / 2
-              } ${nearbyAreaDiameter / 2 + crossSize} Z`}
-              stroke="#406090"
-              strokeWidth="1"
-              transform="translate(0,-2)"
-            />{' '}
-            <path
-              d={`M${nearbyAreaDiameter / 2 - crossSize} ${nearbyAreaDiameter / 2} L${
-                nearbyAreaDiameter / 2 + crossSize
-              } ${nearbyAreaDiameter / 2} Z`}
-              stroke="#406090"
-              strokeWidth="1"
-              transform="translate(0,-2)"
-            />
           </svg>
+          <img style={{ position: 'absolute' }} src={CrossHairIconSvg} alt="Your SVG" />
         </Box>
       ) : null}
     </>

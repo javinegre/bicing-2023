@@ -1,15 +1,14 @@
 import React, { useMemo } from 'react';
+import { getResourceTotals } from './InfoBar.helpers';
 import config from '@config';
 import useStation from '@hooks/useStation';
 import Box from '@mui/material/Box/Box';
 import Paper from '@mui/material/Paper/Paper';
 import { SxProps, Theme, alpha } from '@mui/material/styles';
 import useTheme from '@mui/material/styles/useTheme';
-import { ApiStationStatus } from '@store/api/api.types';
 import { useAppSelector } from '@store/hooks';
 import { mapCenterSelector } from '@store/map';
 import { viewModeSelector } from '@store/ui';
-import { isInNearbyArea } from '@utils/distance';
 
 const sx: SxProps<Theme> = {
   position: 'absolute',
@@ -27,22 +26,7 @@ const InfoBar = () => {
 
   const stations = useStation();
 
-  const totals = useMemo(() => {
-    const activeNearByStations = stations?.filter(
-      (station) => isInNearbyArea(station, center) && station.status === ApiStationStatus.active
-    );
-
-    return activeNearByStations?.reduce(
-      (acc, station) => {
-        return {
-          docks: acc.docks + station.docks,
-          mechanical: acc.mechanical + station.mechanical,
-          electrical: acc.electrical + station.electrical,
-        };
-      },
-      { docks: 0, mechanical: 0, electrical: 0 }
-    );
-  }, [stations, center]);
+  const totals = useMemo(() => getResourceTotals(stations, center), [stations, center]);
 
   sx.bgcolor = alpha(theme.palette.primary.dark, 0.92);
   sx.transform = viewMode === 'detail' ? 'translateY(-100px)' : 'translateY(0)';

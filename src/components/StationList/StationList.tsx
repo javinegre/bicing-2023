@@ -20,16 +20,18 @@ const StationList: FC<StationListProps> = (props) => {
 
   return (
     <>
-      <Typography sx={{ opacity: 0.5 }}>{title}</Typography>
+      <Typography sx={{ opacity: 0.5 }} variant="condensed">
+        {title}
+      </Typography>
       <List>
         {list.map((station) => (
           <ListItem
             key={station.id}
-            sx={{ display: 'flex', px: 0 }}
+            sx={{ display: 'flex', px: 0, cursor: 'pointer' }}
             onClick={() => dispatch(selectStation(station))}
           >
             <Box sx={{ width: '35%' }}>
-              <Typography variant="body2" noWrap>
+              <Typography variant="condensed" noWrap>
                 {station.name}
               </Typography>
             </Box>

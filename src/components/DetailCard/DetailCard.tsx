@@ -5,8 +5,6 @@ import StationList from '@components/StationList/StationList';
 import useStation from '@hooks/useStation';
 import Box from '@mui/material/Box/Box';
 import Card from '@mui/material/Card/Card';
-import IconButton from '@mui/material/IconButton/IconButton';
-import Typography from '@mui/material/Typography/Typography';
 import { SxProps, Theme, alpha, useTheme } from '@mui/material/styles';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { selectedStationSelector, unselectStation, viewModeSelector } from '@store/ui';
@@ -56,6 +54,14 @@ const DetailCard = () => {
 
   return (
     <Card sx={sx}>
+      <Box display="flex" justifyContent="center" sx={{ mb: 1, cursor: 'pointer' }}>
+        <Box
+          sx={{ width: 50, height: 4, bgcolor: '#505050', borderRadius: 1 }}
+          onClick={() => {
+            dispatch(unselectStation());
+          }}
+        />
+      </Box>
       {selectedStation ? (
         <Box
           sx={{
@@ -71,15 +77,6 @@ const DetailCard = () => {
         ) : null}
         {otherStations?.length ? <StationList title="Other Stations" list={otherStations} /> : null}
       </Box>
-      <IconButton
-        sx={{ position: 'absolute', top: 0, right: 0 }}
-        color="primary"
-        onClick={() => {
-          dispatch(unselectStation());
-        }}
-      >
-        <Typography>&times;</Typography>
-      </IconButton>
     </Card>
   );
 };

@@ -13,7 +13,6 @@ const StationDetail: FC<StationDetailProps> = (props) => {
 
   return (
     <>
-      <Typography variant="h6">{station.name}</Typography>
       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Box sx={{ display: 'flex' }}>
           <Typography variant="h5" mr={2}>
@@ -29,6 +28,7 @@ const StationDetail: FC<StationDetailProps> = (props) => {
         </Box>
       </Box>
       <StationStatusBar station={station} size="default" />
+      <Typography variant="h6">{station.name}</Typography>
     </>
   );
 };

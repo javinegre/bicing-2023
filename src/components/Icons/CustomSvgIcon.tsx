@@ -33,7 +33,7 @@ const CustomSvgIcon: FC<{ icon: Icon; size?: number; sx?: SxProps<Theme> | undef
       }
     : { width: 24, height: 24 };
 
-  const _sx = { fill: theme.palette.text.icon, ...sizeSx, ...sx };
+  const _sx = { fill: theme.palette.text.primary, ...sizeSx, ...sx };
 
   return <Box display="flex" sx={_sx} dangerouslySetInnerHTML={{ __html: svg }} />;
 };

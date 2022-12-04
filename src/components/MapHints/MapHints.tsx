@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import CrossHairIconSvg from '@assets/icons/hints/crosshair.svg';
+import CrossHairIconSvg from '@assets/icons/hints/crosshair.svg?url';
 import config from '@config';
 import Box from '@mui/material/Box/Box';
 import { useAppSelector } from '@store/hooks';

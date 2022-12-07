@@ -4,22 +4,21 @@ import StationDetail from '@components/StationDetail/StationDetail';
 import StationList from '@components/StationList/StationList';
 import useStation from '@hooks/useStation';
 import Box from '@mui/material/Box/Box';
-import Card from '@mui/material/Card/Card';
+import SwipeableDrawer from '@mui/material/SwipeableDrawer/SwipeableDrawer';
 import { SxProps, Theme, alpha, useTheme } from '@mui/material/styles';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { selectedStationSelector, unselectStation, viewModeSelector } from '@store/ui';
 
 const sx: SxProps<Theme> = {
-  position: 'absolute',
-  top: '50%',
+  marginBottom: 1,
   height: 'calc(50% - 8px)',
   left: 8,
   right: 8,
-  display: 'flex',
-  flexDirection: 'column',
   px: 2,
   py: 1,
-  zIndex: 5,
+  display: 'flex',
+  borderRadius: 1,
+  pointerEvents: 'auto',
 };
 
 const DetailCard = () => {
@@ -53,31 +52,53 @@ const DetailCard = () => {
   const otherStations = (stationList?.other ?? []).slice(0, 20);
 
   return (
-    <Card sx={sx}>
-      <Box display="flex" justifyContent="center" sx={{ mb: 1, cursor: 'pointer' }}>
-        <Box
-          sx={{ width: 50, height: 4, bgcolor: '#505050', borderRadius: 1 }}
-          onClick={() => {
-            dispatch(unselectStation());
-          }}
-        />
-      </Box>
-      {selectedStation ? (
-        <Box
-          sx={{
-            mb: 3,
-          }}
-        >
-          <StationDetail station={selectedStation} />
+    <React.Fragment>
+      <SwipeableDrawer
+        elevation={0}
+        PaperProps={{
+          sx,
+        }}
+        slotProps={{
+          root: { style: { pointerEvents: 'none' } },
+        }}
+        anchor="bottom"
+        hideBackdrop
+        open={viewMode === 'detail'}
+        onClose={() => {
+          dispatch(unselectStation());
+        }}
+        onOpen={() => undefined}
+      >
+        <Box display="flex" justifyContent="center">
+          <Box
+            sx={{
+              width: 50,
+              height: 4,
+              mb: 1,
+              bgcolor: '#505050',
+              borderRadius: 1,
+              cursor: 'pointer',
+            }}
+            onClick={() => {
+              dispatch(unselectStation());
+            }}
+          />
         </Box>
-      ) : null}
-      <Box ref={listRef} sx={{ overflowY: 'scroll' }}>
-        {nearbyStations?.length ? (
-          <StationList title="Closest Stations" list={nearbyStations} />
+        {selectedStation ? (
+          <Box sx={{ mb: 3 }}>
+            <StationDetail station={selectedStation} />
+          </Box>
         ) : null}
-        {otherStations?.length ? <StationList title="Other Stations" list={otherStations} /> : null}
-      </Box>
-    </Card>
+        <Box ref={listRef} sx={{ overflowY: 'scroll', '-webkit-overflow-scrolling': 'touch' }}>
+          {nearbyStations?.length ? (
+            <StationList title="Closest Stations" list={nearbyStations} />
+          ) : null}
+          {otherStations?.length ? (
+            <StationList title="Other Stations" list={otherStations} />
+          ) : null}
+        </Box>
+      </SwipeableDrawer>
+    </React.Fragment>
   );
 };
 

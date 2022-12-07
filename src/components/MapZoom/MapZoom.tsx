@@ -6,10 +6,7 @@ import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { mapZoomSelector, setGMapsZoom, setZoom } from '@store/map';
 
 const sx: SxProps<Theme> = {
-  position: 'absolute',
-  bottom: 20,
-  right: 20,
-  width: 200,
+  height: 200,
   pointerEvents: 'auto',
 };
 
@@ -28,7 +25,9 @@ const MapZoom = () => {
     [dispatch, setZoom, defaultZoom]
   );
 
-  return <Slider sx={sx} min={12} max={17} value={mapZoom} onChange={_onChange} />;
+  return (
+    <Slider orientation="vertical" sx={sx} min={12} max={17} value={mapZoom} onChange={_onChange} />
+  );
 };
 
 export default MapZoom;

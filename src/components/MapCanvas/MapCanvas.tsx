@@ -6,8 +6,7 @@ import Box from '@mui/material/Box/Box';
 import { SxProps, Theme } from '@mui/material/styles';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { loadGMaps, mapHandlerSelector, mapZoomSelector } from '@store/map';
-import { selectStation } from '@store/ui';
-import { StationResourceTypeEnum } from 'src/types';
+import { bikeTypeFilterSelector, resourceShownSelector, selectStation } from '@store/ui';
 import type { Station } from 'src/types';
 
 const sx: SxProps<Theme> = {
@@ -22,6 +21,8 @@ const sx: SxProps<Theme> = {
 const MapCanvas: FC = () => {
   const mapHandler = useAppSelector(mapHandlerSelector);
   const zoom = useAppSelector(mapZoomSelector);
+  const bikeTypeFilter = useAppSelector(bikeTypeFilterSelector);
+  const resourceShown = useAppSelector(resourceShownSelector);
   const dispatch = useAppDispatch();
   const markers = useRef<Record<Station['id'], MarkerWithMetaData | undefined>>({});
 
@@ -40,7 +41,7 @@ const MapCanvas: FC = () => {
       if (window.googleMapsReady) {
         const marker = markers.current[station.id];
 
-        const markerIcon = getStationMarkerIcon(station, StationResourceTypeEnum.bikes, null, zoom);
+        const markerIcon = getStationMarkerIcon(station, resourceShown, bikeTypeFilter, zoom);
 
         if (marker) {
           marker.setIcon(markerIcon);
@@ -63,7 +64,7 @@ const MapCanvas: FC = () => {
         }
       }
     });
-  }, [mapHandler, stations, zoom, markers.current]);
+  }, [mapHandler, stations, zoom, markers.current, resourceShown, bikeTypeFilter]);
 
   return <Box sx={sx} ref={mapRef}></Box>;
 };

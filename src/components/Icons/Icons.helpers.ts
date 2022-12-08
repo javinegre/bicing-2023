@@ -1,7 +1,7 @@
 import icons from './ResourceIcons';
 import config from '@config';
 import { ApiStationStatus } from '@store/api/api.types';
-import { StationResourceTypeEnum } from 'src/types';
+import { BikeTypeFilterEnum, StationResourceTypeEnum } from 'src/types';
 import type { BikeTypeFilter, MarkerColorType, Station } from 'src/types';
 
 const getStationResourceNumber = (
@@ -12,9 +12,9 @@ const getStationResourceNumber = (
   let resourceNumber;
 
   if (resourceShown === StationResourceTypeEnum.bikes) {
-    if (bikeTypeFilter === 'mechanical') {
+    if (bikeTypeFilter === BikeTypeFilterEnum.mechanical) {
       resourceNumber = station.mechanical;
-    } else if (bikeTypeFilter === 'electrical') {
+    } else if (BikeTypeFilterEnum.electrical) {
       resourceNumber = station.electrical;
     } else {
       resourceNumber = station.mechanical + station.electrical;

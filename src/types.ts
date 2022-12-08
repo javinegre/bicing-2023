@@ -34,7 +34,12 @@ export enum BikeTypeEnum {
   electrical,
 }
 
-export type BikeTypeFilter = 'mechanical' | 'electrical' | null;
+export enum BikeTypeFilterEnum {
+  mechanical,
+  electrical,
+}
+
+export type BikeTypeFilter = BikeTypeFilterEnum | null;
 
 export type MarkerColorType = 'black' | 'red' | 'orange' | 'green' | 'gray';
 

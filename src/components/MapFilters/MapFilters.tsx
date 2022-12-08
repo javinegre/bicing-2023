@@ -8,7 +8,7 @@ import {
   toggleFilter,
   toggleResourceShown,
 } from '@store/ui';
-import { StationResourceTypeEnum } from 'src/types';
+import { BikeTypeFilterEnum, StationResourceTypeEnum } from 'src/types';
 
 const sxCircleButton: SxProps<Theme> = {
   width: '48px',
@@ -33,10 +33,11 @@ const MapFilters = () => {
         disabled={resourceShown !== StationResourceTypeEnum.bikes}
         sx={{
           ...sxCircleButton,
-          opacity: bikeTypeFilter === null || bikeTypeFilter === 'electrical' ? 1 : 0.5,
+          opacity:
+            bikeTypeFilter === null || bikeTypeFilter === BikeTypeFilterEnum.electrical ? 1 : 0.5,
         }}
         onClick={() => {
-          dispatch(toggleFilter('electrical'));
+          dispatch(toggleFilter(BikeTypeFilterEnum.electrical));
         }}
       >
         e
@@ -47,10 +48,11 @@ const MapFilters = () => {
         disabled={resourceShown !== StationResourceTypeEnum.bikes}
         sx={{
           ...sxCircleButton,
-          opacity: bikeTypeFilter === null || bikeTypeFilter === 'mechanical' ? 1 : 0.5,
+          opacity:
+            bikeTypeFilter === null || bikeTypeFilter === BikeTypeFilterEnum.mechanical ? 1 : 0.5,
         }}
         onClick={() => {
-          dispatch(toggleFilter('mechanical'));
+          dispatch(toggleFilter(BikeTypeFilterEnum.mechanical));
         }}
       >
         m

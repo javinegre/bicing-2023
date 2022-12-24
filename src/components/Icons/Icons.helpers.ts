@@ -14,7 +14,7 @@ const getStationResourceNumber = (
   if (resourceShown === StationResourceTypeEnum.bikes) {
     if (bikeTypeFilter === BikeTypeFilterEnum.mechanical) {
       resourceNumber = station.mechanical;
-    } else if (BikeTypeFilterEnum.electrical) {
+    } else if (bikeTypeFilter === BikeTypeFilterEnum.electrical) {
       resourceNumber = station.electrical;
     } else {
       resourceNumber = station.mechanical + station.electrical;

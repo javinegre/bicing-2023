@@ -49,14 +49,14 @@ const initializeMap = createAsyncThunk<google.maps.Map, HTMLElement>(
   }
 );
 
-const setGMapsCenter = createAsyncThunk<void, { center: MapCoordinates; applyOffset: boolean }>(
+const setGMapsCenter = createAsyncThunk<void, { center: MapCoordinates; yOffset: -1 | 0 | 1 }>(
   'map/setGMapsCenter',
   async (payload, thunkAPI) => {
     const baseOffset = window.innerHeight / 4;
-    const yOffset = payload.applyOffset ? baseOffset : -baseOffset;
+    const _yOffset = payload.yOffset * baseOffset;
 
     (thunkAPI.getState() as RootState).map.mapHandler?.setCenter(payload.center);
-    (thunkAPI.getState() as RootState).map.mapHandler?.panBy(0, yOffset);
+    (thunkAPI.getState() as RootState).map.mapHandler?.panBy(0, _yOffset);
   }
 );
 

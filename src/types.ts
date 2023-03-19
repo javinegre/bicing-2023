@@ -23,6 +23,7 @@ export interface StationStatus {
 }
 
 export type Station = StationInfoItem & StationStatusItem;
+export type SelectedStation = Pick<Station, 'id' | 'lat' | 'lng'>;
 
 export enum StationResourceTypeEnum {
   bikes,

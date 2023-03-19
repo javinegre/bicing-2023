@@ -1,4 +1,5 @@
 import React from 'react';
+import MapBookmark from '@components/MapBookmark/MapBookmark';
 import MapFilters from '@components/MapFilters/MapFilters';
 import MapZoom from '@components/MapZoom/MapZoom';
 import Box from '@mui/material/Box/Box';
@@ -25,6 +26,11 @@ const MapControls = () => {
       <>
         <Box display="flex" justifyContent="flex-end" mb={1} sx={{ pointerEvents: 'auto' }}>
           <MapFilters />
+        </Box>
+        <Box display="flex" flexDirection="column" alignItems="flex-end">
+          <MapBookmark type="home" />
+          <MapBookmark type="work" />
+          <MapBookmark type="favorite" />
         </Box>
         {viewMode === 'default' ? (
           <Box display="flex" justifyContent="flex-end">

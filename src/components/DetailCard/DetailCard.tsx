@@ -86,7 +86,7 @@ const DetailCard = () => {
         </Box>
         {selectedStation ? (
           <Box sx={{ mb: 3 }}>
-            <StationDetail station={selectedStation} />
+            <StationDetail stationId={selectedStation.id} />
           </Box>
         ) : null}
         <Box ref={listRef} sx={{ overflowY: 'scroll', '-webkit-overflow-scrolling': 'touch' }}>

@@ -1,18 +1,27 @@
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 import CustomSvgIcon from '@components/Icons/CustomSvgIcon';
 import StationStatusBar from '@components/StationStatusBar/StationStatusBar';
+import useStation from '@hooks/useStation';
 import Box from '@mui/material/Box/Box';
 import Typography from '@mui/material/Typography/Typography';
 import { Station } from 'src/types';
 
 interface StationDetailProps {
-  station: Station;
+  stationId: Station['id'];
 }
 
 const StationDetail: FC<StationDetailProps> = (props) => {
-  const { station } = props;
+  const { stationId } = props;
+
+  const stations = useStation();
+
+  const station = useMemo(() => stations?.find((st) => st.id === stationId), [stationId, stations]);
 
   const iconOpacity = 0.5;
+
+  if (!station) {
+    return <></>;
+  }
 
   return (
     <>

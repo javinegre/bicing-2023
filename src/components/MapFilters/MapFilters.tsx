@@ -13,8 +13,6 @@ import { BikeTypeFilterEnum, StationResourceTypeEnum } from 'src/types';
 const sxCircleButton: SxProps<Theme> = {
   width: '48px',
   height: '48px',
-  padding: 0,
-  margin: 0,
   minWidth: '48px',
   borderRadius: '50%',
 };

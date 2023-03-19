@@ -57,7 +57,7 @@ const MapCanvas: FC = () => {
           });
 
           newMarker.addListener('click', () => {
-            dispatch(selectStation(station));
+            dispatch(selectStation({ id: station.id, lat: station.lat, lng: station.lng }));
           });
 
           markers.current[station.id] = newMarker as MarkerWithMetaData;

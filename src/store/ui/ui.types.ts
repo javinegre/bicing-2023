@@ -1,7 +1,7 @@
-import type { BikeTypeFilter, Station, StationResourceTypeEnum } from 'src/types';
+import type { BikeTypeFilter, SelectedStation, StationResourceTypeEnum } from 'src/types';
 
 export interface UiStoreState {
-  selectedStation: Station | null;
+  selectedStation: SelectedStation | null;
   resourceShown: StationResourceTypeEnum;
   bikeTypeFilter: BikeTypeFilter;
 }

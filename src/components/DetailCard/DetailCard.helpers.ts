@@ -1,7 +1,10 @@
 import { getStationDistance, isInNearbyArea } from '@utils/distance';
-import { Station } from 'src/types';
+import { SelectedStation, Station } from 'src/types';
 
-export const getStationList = (selectedStation: Station | null, stations: Station[] | null) => {
+export const getStationList = (
+  selectedStation: SelectedStation | null,
+  stations: Station[] | null
+) => {
   const center = { lat: selectedStation?.lat ?? 0, lng: selectedStation?.lng ?? 0 };
 
   const unsortedStationList = stations?.reduce<{

@@ -1,10 +1,12 @@
 import { apiSlice } from './api/api.slice';
+import BookmarksReducer from './bookmarks/bookmarks.slice';
 import MapStoreReducer from './map/map.slice';
 import UiStoreReducer from './ui/ui.slice';
 import { configureStore } from '@reduxjs/toolkit';
 
 export const store = configureStore({
   reducer: {
+    bookmarks: BookmarksReducer,
     map: MapStoreReducer,
     ui: UiStoreReducer,
     [apiSlice.reducerPath]: apiSlice.reducer,

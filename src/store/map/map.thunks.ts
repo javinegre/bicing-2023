@@ -1,12 +1,27 @@
 import config from '@config';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { setCenter, setZoom } from '@store/map';
 import { RootState } from '@store/store';
+import LocalStorage from '@utils/localStorage';
 import { dynamicallyLoadScript } from '@utils/scripts';
 import { getMapHandlerCenterCoordinates } from 'src/helpers/map.helpers';
 import { MapCoordinates } from 'src/types';
 
-const loadGMaps = createAsyncThunk<void, HTMLElement>(
+const ls = LocalStorage();
+
+export const setCenter = createAsyncThunk<MapCoordinates, MapCoordinates>(
+  'map/setCenter',
+  async (payload) => {
+    ls.setPosition('mapCenter', payload);
+    return payload;
+  }
+);
+
+export const setZoom = createAsyncThunk<number, number>('map/setZoom', async (payload) => {
+  ls.setMapZoom(payload);
+  return payload;
+});
+
+export const loadGMaps = createAsyncThunk<void, HTMLElement>(
   'map/loadGMaps',
   async (payload, thunkAPI) => {
     const googleMapsConfig = config.vendor.google.maps;
@@ -27,10 +42,17 @@ const loadGMaps = createAsyncThunk<void, HTMLElement>(
   }
 );
 
-const initializeMap = createAsyncThunk<google.maps.Map, HTMLElement>(
+export const initializeMap = createAsyncThunk<google.maps.Map, HTMLElement>(
   'map/initializeMap',
   async (payload, thunkApi) => {
-    const mapHandler: google.maps.Map = new window.google.maps.Map(payload, config.app.mapOptions);
+    const state = thunkApi.getState() as RootState;
+    const { center: defaultCenter, zoom: defaultZoom, ...restMapOptions } = config.app.mapOptions;
+
+    const mapHandler: google.maps.Map = new window.google.maps.Map(payload, {
+      center: state.map.center ?? defaultCenter,
+      zoom: state.map.zoom ?? defaultZoom,
+      ...restMapOptions,
+    });
 
     mapHandler.addListener('zoom_changed', () => {
       const zoom = mapHandler.getZoom();
@@ -49,22 +71,20 @@ const initializeMap = createAsyncThunk<google.maps.Map, HTMLElement>(
   }
 );
 
-const setGMapsCenter = createAsyncThunk<void, { center: MapCoordinates; yOffset: -1 | 0 | 1 }>(
-  'map/setGMapsCenter',
-  async (payload, thunkAPI) => {
-    const baseOffset = window.innerHeight / 4;
-    const _yOffset = payload.yOffset * baseOffset;
+export const setGMapsCenter = createAsyncThunk<
+  void,
+  { center: MapCoordinates; yOffset: -1 | 0 | 1 }
+>('map/setGMapsCenter', async (payload, thunkApi) => {
+  const baseOffset = window.innerHeight / 4;
+  const _yOffset = payload.yOffset * baseOffset;
 
-    (thunkAPI.getState() as RootState).map.mapHandler?.setCenter(payload.center);
-    (thunkAPI.getState() as RootState).map.mapHandler?.panBy(0, _yOffset);
-  }
-);
+  (thunkApi.getState() as RootState).map.mapHandler?.setCenter(payload.center);
+  (thunkApi.getState() as RootState).map.mapHandler?.panBy(0, _yOffset);
+});
 
-const setGMapsZoom = createAsyncThunk<void, number>(
+export const setGMapsZoom = createAsyncThunk<void, number>(
   'map/setGMapsZoom',
-  async (payload, thunkAPI) => {
-    (thunkAPI.getState() as RootState).map.mapHandler?.setZoom(payload);
+  async (payload, thunkApi) => {
+    (thunkApi.getState() as RootState).map.mapHandler?.setZoom(payload);
   }
 );
-
-export { loadGMaps, initializeMap, setGMapsCenter, setGMapsZoom };

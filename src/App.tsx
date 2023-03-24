@@ -3,6 +3,7 @@ import './App.css';
 import DetailCard from './components/DetailCard/DetailCard';
 import InfoBar from './components/InfoBar/InfoBar';
 import Map from './components/Map/Map';
+import SnackbarProvider from './providers/SnackbarProvider';
 import { apiSlice } from './store/api/api.slice';
 import Box from '@mui/material/Box/Box';
 import { SxProps, Theme } from '@mui/material/styles';
@@ -43,6 +44,7 @@ const App = () => {
         <Map />
         <InfoBar />
         <DetailCard />
+        <SnackbarProvider />
       </Box>
     </Box>
   );

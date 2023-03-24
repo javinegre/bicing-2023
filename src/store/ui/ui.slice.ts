@@ -1,5 +1,5 @@
 import { selectStation, unselectStation } from './ui.thunks';
-import { UiStoreState } from './ui.types';
+import { UiStoreSnackbar, UiStoreState } from './ui.types';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { StationResourceTypeEnum } from 'src/types';
 import type { BikeTypeFilter } from 'src/types';
@@ -8,6 +8,7 @@ const initialState: UiStoreState = {
   selectedStation: null,
   resourceShown: StationResourceTypeEnum.bikes,
   bikeTypeFilter: null,
+  snackbarQueue: [],
 };
 
 export const mapSlice = createSlice({
@@ -28,6 +29,18 @@ export const mapSlice = createSlice({
 
       state.bikeTypeFilter = newFilter;
     },
+    enqueueSnackbar: (state, action: PayloadAction<Omit<UiStoreSnackbar, 'id'>>) => {
+      state.snackbarQueue = [
+        ...state.snackbarQueue,
+        { id: String(+new Date()), ...action.payload },
+      ];
+    },
+    processSnackbarQueue: (state) => {
+      state.snackbarQueue = state.snackbarQueue.filter((_, idx) => idx !== 0);
+    },
+    clearSnackbarQueue: (state) => {
+      state.snackbarQueue = [];
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(selectStation.fulfilled, (state, action) => {
@@ -39,6 +52,7 @@ export const mapSlice = createSlice({
   },
 });
 
-export const { toggleResourceShown, toggleFilter } = mapSlice.actions;
+export const { toggleResourceShown, toggleFilter, enqueueSnackbar, processSnackbarQueue } =
+  mapSlice.actions;
 
 export default mapSlice.reducer;

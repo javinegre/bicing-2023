@@ -3,6 +3,7 @@ import { RootState } from '@store/store';
 
 const uiSelector = (state: RootState) => state.ui;
 
+export const appErrorSelector = createDraftSafeSelector(uiSelector, (uiState) => uiState.appError);
 export const viewModeSelector = createDraftSafeSelector(uiSelector, (uiState) =>
   uiState.selectedStation === null ? 'default' : 'detail'
 );

@@ -5,6 +5,7 @@ import InfoBar from './components/InfoBar/InfoBar';
 import Map from './components/Map/Map';
 import SnackbarProvider from './providers/SnackbarProvider';
 import { apiSlice } from './store/api/api.slice';
+import AppErrorMessage from '@components/AppErrorMessage/AppErrorMessage';
 import AppModal from '@components/AppModal/AppModal';
 import Box from '@mui/material/Box/Box';
 import { SxProps, Theme } from '@mui/material/styles';
@@ -47,6 +48,7 @@ const App = () => {
         <DetailCard />
         <SnackbarProvider />
         <AppModal />
+        <AppErrorMessage />
       </Box>
     </Box>
   );

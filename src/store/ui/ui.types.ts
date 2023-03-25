@@ -9,6 +9,7 @@ export interface UiStoreSnackbar {
 }
 
 export interface UiStoreState {
+  appError: { errorMessage: string | undefined } | null;
   selectedStation: SelectedStation | null;
   resourceShown: StationResourceTypeEnum;
   bikeTypeFilter: BikeTypeFilter;

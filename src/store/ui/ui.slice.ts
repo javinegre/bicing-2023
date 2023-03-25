@@ -5,6 +5,7 @@ import { StationResourceTypeEnum } from 'src/types';
 import type { BikeTypeFilter } from 'src/types';
 
 const initialState: UiStoreState = {
+  appError: null,
   selectedStation: null,
   resourceShown: StationResourceTypeEnum.bikes,
   bikeTypeFilter: null,
@@ -16,6 +17,12 @@ export const mapSlice = createSlice({
   name: 'ui',
   initialState,
   reducers: {
+    setAppError: (state, action: PayloadAction<{ errorMessage: string | undefined }>) => {
+      state.appError = action.payload;
+    },
+    unsetAppError: (state) => {
+      state.appError = null;
+    },
     toggleResourceShown: (state) => {
       state.resourceShown =
         state.resourceShown === StationResourceTypeEnum.bikes
@@ -60,6 +67,8 @@ export const mapSlice = createSlice({
 });
 
 export const {
+  setAppError,
+  unsetAppError,
   toggleResourceShown,
   toggleFilter,
   enqueueSnackbar,

@@ -17,9 +17,10 @@ export interface StationStatusItem {
 }
 
 export interface StationStatus {
-  lastUpdated: number;
+  lastUpdated: number | undefined;
   stations: StationStatusItem[];
   success: boolean;
+  errorMessage: string | undefined;
 }
 
 export type Station = StationInfoItem & StationStatusItem;

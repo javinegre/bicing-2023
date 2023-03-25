@@ -6,9 +6,10 @@ export interface ApiStationInfoItemResponse {
 }
 
 export interface ApiStationInfoResponse {
-  lastUpdated: number;
-  stations: ApiStationInfoItemResponse[];
   success: boolean;
+  lastUpdated?: number;
+  stations?: ApiStationInfoItemResponse[];
+  errorMessage?: string;
 }
 
 export enum ApiStationStatus {
@@ -25,7 +26,8 @@ export interface ApiStationStatusItemResponse {
 }
 
 export interface StationStatusApiResponse {
-  lastUpdated: number;
-  stations: ApiStationStatusItemResponse[];
   success: boolean;
+  lastUpdated?: number;
+  stations?: ApiStationStatusItemResponse[];
+  errorMessage?: string;
 }

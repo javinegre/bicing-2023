@@ -17,7 +17,7 @@ const useStation = () => {
         {}
       );
 
-      _list = stationsInfo.stations.reduce<Station[]>((acc, station) => {
+      _list = (stationsInfo.stations ?? []).reduce<Station[]>((acc, station) => {
         const status: StationStatusItem | undefined = statuses[station.id];
 
         if (!status) {

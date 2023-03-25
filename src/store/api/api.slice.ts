@@ -15,7 +15,9 @@ export const apiSlice = createApi({
     stationStatus: builder.query<StationStatus, 'station-status'>({
       query: () => '/station-status',
       transformResponse: (rawResult: StationStatusApiResponse) => {
-        const stations = rawResult.stations.map(({ i, e, m, d, s }) => ({
+        const stationListRaw = rawResult.stations ?? [];
+
+        const stations = stationListRaw.map(({ i, e, m, d, s }) => ({
           id: i,
           electrical: e,
           mechanical: m,
@@ -24,9 +26,10 @@ export const apiSlice = createApi({
         }));
 
         return {
-          lastUpdated: rawResult.lastUpdated,
           success: rawResult.success,
+          lastUpdated: rawResult.lastUpdated,
           stations: stations,
+          errorMessage: rawResult.errorMessage,
         };
       },
     }),

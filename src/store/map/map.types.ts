@@ -5,4 +5,9 @@ export interface MapStoreState {
   mapStatus: 'LOADING' | 'IDLE' | 'FAILED';
   center: MapCoordinates;
   zoom: number;
+  geoLocation: {
+    position: MapCoordinates | null;
+    lastUpdated: number | null;
+    status: 'LOADING' | 'IDLE' | 'FAILED';
+  };
 }

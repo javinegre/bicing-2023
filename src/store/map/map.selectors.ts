@@ -11,3 +11,11 @@ export const mapCenterSelector = createDraftSafeSelector(
   (mapState) => mapState.center
 );
 export const mapZoomSelector = createDraftSafeSelector(mapSelector, (mapState) => mapState.zoom);
+export const userLocationSelector = createDraftSafeSelector(
+  mapSelector,
+  (mapState) => mapState.geoLocation.position
+);
+export const userLocationStatusSelector = createDraftSafeSelector(
+  mapSelector,
+  (mapState) => mapState.geoLocation.status
+);

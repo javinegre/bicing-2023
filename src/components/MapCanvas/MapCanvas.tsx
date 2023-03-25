@@ -1,11 +1,12 @@
 import React, { FC, useEffect, useLayoutEffect, useRef } from 'react';
 import { MarkerWithMetaData } from './MapCanvas.types';
+import UserLocationIcon from '@assets/icons/ui/user-location.svg?url';
 import { getStationMarkerIcon } from '@components/Icons/Icons.helpers';
 import useStation from '@hooks/useStation';
 import Box from '@mui/material/Box/Box';
 import { SxProps, Theme } from '@mui/material/styles';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
-import { loadGMaps, mapHandlerSelector, mapZoomSelector } from '@store/map';
+import { loadGMaps, mapHandlerSelector, mapZoomSelector, userLocationSelector } from '@store/map';
 import { bikeTypeFilterSelector, resourceShownSelector, selectStation } from '@store/ui';
 import type { Station } from 'src/types';
 
@@ -23,10 +24,13 @@ const MapCanvas: FC = () => {
   const zoom = useAppSelector(mapZoomSelector);
   const bikeTypeFilter = useAppSelector(bikeTypeFilterSelector);
   const resourceShown = useAppSelector(resourceShownSelector);
+  const userLocation = useAppSelector(userLocationSelector);
   const dispatch = useAppDispatch();
-  const markers = useRef<Record<Station['id'], MarkerWithMetaData | undefined>>({});
 
   const mapRef = useRef<HTMLDivElement>();
+
+  const stationMarkers = useRef<Record<Station['id'], MarkerWithMetaData>>({});
+  const userLocationMarker = useRef<google.maps.Marker | null>();
 
   const stations = useStation();
 
@@ -37,34 +41,61 @@ const MapCanvas: FC = () => {
   }, [mapRef]);
 
   useLayoutEffect(() => {
+    if (!window.googleMapsReady) {
+      return;
+    }
+
     stations?.forEach((station) => {
-      if (window.googleMapsReady) {
-        const marker = markers.current[station.id];
+      const marker = stationMarkers.current[station.id];
 
-        const markerIcon = getStationMarkerIcon(station, resourceShown, bikeTypeFilter, zoom);
+      const markerIcon = getStationMarkerIcon(station, resourceShown, bikeTypeFilter, zoom);
 
-        if (marker) {
-          marker.setIcon(markerIcon);
-        } else {
-          const newMarker = new google.maps.Marker({
-            map: mapHandler as google.maps.Map,
-            position: { lat: station.lat, lng: station.lng },
-            icon: markerIcon,
-          });
+      if (marker) {
+        marker.setIcon(markerIcon);
+      } else {
+        const newMarker = new google.maps.Marker({
+          map: mapHandler as google.maps.Map,
+          position: { lat: station.lat, lng: station.lng },
+          icon: markerIcon,
+        });
 
-          newMarker.setValues({
-            id: station.id,
-          });
+        newMarker.setValues({
+          id: station.id,
+        });
 
-          newMarker.addListener('click', () => {
-            dispatch(selectStation({ id: station.id, lat: station.lat, lng: station.lng }));
-          });
+        newMarker.addListener('click', () => {
+          dispatch(selectStation({ id: station.id, lat: station.lat, lng: station.lng }));
+        });
 
-          markers.current[station.id] = newMarker as MarkerWithMetaData;
-        }
+        stationMarkers.current[station.id] = newMarker as MarkerWithMetaData;
       }
     });
-  }, [mapHandler, stations, zoom, markers.current, resourceShown, bikeTypeFilter]);
+
+    if (userLocation) {
+      if (userLocationMarker.current) {
+        userLocationMarker.current.setPosition(userLocation);
+      } else {
+        userLocationMarker.current = new google.maps.Marker({
+          map: mapHandler as google.maps.Map,
+          position: userLocation,
+          icon: UserLocationIcon,
+        });
+      }
+    } else {
+      if (userLocationMarker.current) {
+        userLocationMarker.current.setMap(null);
+        userLocationMarker.current = null;
+      }
+    }
+  }, [
+    mapHandler,
+    stations,
+    userLocation,
+    zoom,
+    stationMarkers.current,
+    resourceShown,
+    bikeTypeFilter,
+  ]);
 
   return <Box sx={sx} ref={mapRef}></Box>;
 };

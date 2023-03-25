@@ -1,3 +1,4 @@
+import { rejectGeoLocation, updateGeoLocation } from './map.slice';
 import config from '@config';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '@store/store';
@@ -88,3 +89,25 @@ export const setGMapsZoom = createAsyncThunk<void, number>(
     (thunkApi.getState() as RootState).map.mapHandler?.setZoom(payload);
   }
 );
+
+export const geoLocate = createAsyncThunk<void, void>('map/geoLocate', async (_, thunkApi) => {
+  navigator.geolocation.getCurrentPosition(
+    (currentPosition) => {
+      const position = {
+        lat: currentPosition.coords.latitude,
+        lng: currentPosition.coords.longitude,
+      };
+      thunkApi.dispatch(
+        setGMapsCenter({
+          center: position,
+          yOffset: 0,
+        })
+      );
+      thunkApi.dispatch(updateGeoLocation({ position, lastUpdated: currentPosition.timestamp }));
+    },
+    () => {
+      thunkApi.dispatch(rejectGeoLocation());
+    },
+    config.app.geoLocation
+  );
+});

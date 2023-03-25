@@ -48,6 +48,10 @@ const config = {
       15: 190,
       16: 380,
     } as { [zoom: number]: number },
+    geoLocation: {
+      timeout: 10000,
+      maximumAge: 30000,
+    },
   },
   api: {
     baseUrl: 'https://negre.co/bicing/api',

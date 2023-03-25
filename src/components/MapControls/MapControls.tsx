@@ -1,6 +1,7 @@
 import React from 'react';
 import MapBookmark from '@components/MapBookmark/MapBookmark';
 import MapFilters from '@components/MapFilters/MapFilters';
+import MapGeoLocation from '@components/MapGeoLocation/MapGeoLocation';
 import MapZoom from '@components/MapZoom/MapZoom';
 import Box from '@mui/material/Box/Box';
 import { SxProps, Theme } from '@mui/material/styles';
@@ -28,6 +29,7 @@ const MapControls = () => {
           <MapFilters />
         </Box>
         <Box display="flex" flexDirection="column" alignItems="flex-end">
+          <MapGeoLocation />
           <MapBookmark type="home" />
           <MapBookmark type="work" />
           <MapBookmark type="favorite" />

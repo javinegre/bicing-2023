@@ -1,16 +1,15 @@
 import React, { useMemo } from 'react';
 import { getResourceTotals } from './InfoBar.helpers';
 import CustomSvgIcon from '@components/Icons/CustomSvgIcon';
-import config from '@config';
 import useStation from '@hooks/useStation';
 import Box from '@mui/material/Box/Box';
 import Paper from '@mui/material/Paper/Paper';
 import Typography from '@mui/material/Typography/Typography';
 import { SxProps, Theme, alpha } from '@mui/material/styles';
 import useTheme from '@mui/material/styles/useTheme';
-import { useAppSelector } from '@store/hooks';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { mapCenterSelector } from '@store/map';
-import { viewModeSelector } from '@store/ui';
+import { openModal, viewModeSelector } from '@store/ui';
 
 const sx: SxProps<Theme> = {
   position: 'absolute',
@@ -23,6 +22,7 @@ const sx: SxProps<Theme> = {
 };
 
 const InfoBar = () => {
+  const dispatch = useAppDispatch();
   const center = useAppSelector(mapCenterSelector);
   const viewMode = useAppSelector(viewModeSelector);
   const theme = useTheme();
@@ -36,6 +36,10 @@ const InfoBar = () => {
   sx.transition = theme.transitions.create(['transform']);
 
   const iconOpacity = 0.6;
+
+  const _openAppModal = () => {
+    dispatch(openModal());
+  };
 
   return (
     <Paper sx={sx} variant="elevation">
@@ -75,7 +79,7 @@ const InfoBar = () => {
               />
             </Box>
           </Box>
-          <Box>v{config.version}</Box>
+          <Box onClick={_openAppModal}>Settings</Box>
         </Box>
       ) : null}
     </Paper>

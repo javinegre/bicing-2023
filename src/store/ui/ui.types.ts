@@ -12,5 +12,6 @@ export interface UiStoreState {
   selectedStation: SelectedStation | null;
   resourceShown: StationResourceTypeEnum;
   bikeTypeFilter: BikeTypeFilter;
+  modalShown: boolean;
   snackbarQueue: UiStoreSnackbar[];
 }

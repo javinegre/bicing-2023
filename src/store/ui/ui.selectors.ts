@@ -18,6 +18,10 @@ export const selectedStationSelector = createDraftSafeSelector(
   uiSelector,
   (uiState) => uiState.selectedStation
 );
+export const modalShownSelector = createDraftSafeSelector(
+  uiSelector,
+  (uiState) => uiState.modalShown
+);
 export const activeSnackbarSelector = createDraftSafeSelector(uiSelector, (uiState) =>
   uiState.snackbarQueue.at(0)
 );

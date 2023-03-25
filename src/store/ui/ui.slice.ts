@@ -8,6 +8,7 @@ const initialState: UiStoreState = {
   selectedStation: null,
   resourceShown: StationResourceTypeEnum.bikes,
   bikeTypeFilter: null,
+  modalShown: false,
   snackbarQueue: [],
 };
 
@@ -28,6 +29,12 @@ export const mapSlice = createSlice({
           : null;
 
       state.bikeTypeFilter = newFilter;
+    },
+    openModal: (state) => {
+      state.modalShown = true;
+    },
+    closeModal: (state) => {
+      state.modalShown = false;
     },
     enqueueSnackbar: (state, action: PayloadAction<Omit<UiStoreSnackbar, 'id'>>) => {
       state.snackbarQueue = [
@@ -52,7 +59,13 @@ export const mapSlice = createSlice({
   },
 });
 
-export const { toggleResourceShown, toggleFilter, enqueueSnackbar, processSnackbarQueue } =
-  mapSlice.actions;
+export const {
+  toggleResourceShown,
+  toggleFilter,
+  enqueueSnackbar,
+  openModal,
+  closeModal,
+  processSnackbarQueue,
+} = mapSlice.actions;
 
 export default mapSlice.reducer;

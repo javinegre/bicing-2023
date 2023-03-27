@@ -5,8 +5,8 @@ import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { geoLocate, userLocationStatusSelector } from '@store/map';
 
 const sxCircleButton: SxProps<Theme> = {
-  width: '32px',
-  height: '32px',
+  width: '40px',
+  height: '40px',
   minWidth: '32px',
   borderRadius: '50%',
   pointerEvents: 'auto',

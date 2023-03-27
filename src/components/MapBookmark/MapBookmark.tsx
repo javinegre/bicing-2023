@@ -7,9 +7,9 @@ import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { mapCenterSelector, setGMapsCenter } from '@store/map';
 
 const sxCircleButton: SxProps<Theme> = {
-  width: '32px',
-  height: '32px',
-  minWidth: '32px',
+  width: '30px',
+  height: '30px',
+  minWidth: '30px',
   borderRadius: '50%',
   pointerEvents: 'auto',
 };

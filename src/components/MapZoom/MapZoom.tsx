@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { mapZoomSelector, setGMapsZoom, setZoom } from '@store/map';
 
 const sx: SxProps<Theme> = {
-  height: 200,
+  height: 160,
   pointerEvents: 'auto',
 };
 

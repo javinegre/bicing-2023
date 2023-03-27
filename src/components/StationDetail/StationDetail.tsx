@@ -4,6 +4,8 @@ import StationStatusBar from '@components/StationStatusBar/StationStatusBar';
 import useStation from '@hooks/useStation';
 import Box from '@mui/material/Box/Box';
 import Typography from '@mui/material/Typography/Typography';
+import { useAppDispatch } from '@store/hooks';
+import { selectStation } from '@store/ui';
 import { Station } from 'src/types';
 
 interface StationDetailProps {
@@ -14,17 +16,24 @@ const StationDetail: FC<StationDetailProps> = (props) => {
   const { stationId } = props;
 
   const stations = useStation();
+  const dispatch = useAppDispatch();
 
   const station = useMemo(() => stations?.find((st) => st.id === stationId), [stationId, stations]);
 
   const iconOpacity = 0.5;
+
+  const _onClick = () => {
+    if (station) {
+      dispatch(selectStation({ id: station.id, lat: station.lat, lng: station.lng }));
+    }
+  };
 
   if (!station) {
     return <></>;
   }
 
   return (
-    <>
+    <Box onClick={_onClick} sx={{ userSelect: 'none', cursor: 'pointer' }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Box sx={{ display: 'flex' }}>
           <Box display="flex" alignItems="center" mr={1}>
@@ -55,7 +64,7 @@ const StationDetail: FC<StationDetailProps> = (props) => {
       </Box>
       <StationStatusBar station={station} size="default" />
       <Typography variant="h6">{station.name}</Typography>
-    </>
+    </Box>
   );
 };
 

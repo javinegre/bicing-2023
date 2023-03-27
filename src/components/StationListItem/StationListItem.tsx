@@ -19,7 +19,16 @@ const StationListItem: FC<StationListItemProps> = (props) => {
   const _onClick = useCallback(() => dispatch(selectStation(station)), [station]);
 
   return (
-    <ListItem sx={{ display: 'flex', px: 0, cursor: 'pointer' }} onClick={_onClick}>
+    <ListItem
+      sx={{
+        display: 'flex',
+        px: 0,
+        letterSpacing: '-0.02em',
+        cursor: 'pointer',
+        userSelect: 'none',
+      }}
+      onClick={_onClick}
+    >
       <Box sx={{ width: '35%' }}>
         <Typography variant="condensed" noWrap>
           {station.name}

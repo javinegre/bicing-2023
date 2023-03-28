@@ -29,8 +29,14 @@ const MapControls = () => {
           <MapFilters />
         </Box>
         {viewMode === 'default' ? (
-          <>
-            <Box display="flex" flexDirection="column" alignItems="flex-end">
+          <Box
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            ml="auto"
+            sx={{ width: 40 }}
+          >
+            <Box display="flex" flexDirection="column" alignItems="center" mb={1}>
               <MapGeoLocation />
               <MapBookmark type="home" />
               <MapBookmark type="work" />
@@ -39,7 +45,7 @@ const MapControls = () => {
             <Box display="flex" justifyContent="flex-end">
               <MapZoom />
             </Box>
-          </>
+          </Box>
         ) : null}
       </>
     </Box>

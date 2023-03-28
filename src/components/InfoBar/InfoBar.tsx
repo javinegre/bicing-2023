@@ -50,7 +50,7 @@ const InfoBar = () => {
               <Typography fontSize="1.5em">{totals.mechanical + totals.electrical}</Typography>
               <CustomSvgIcon
                 icon="bike"
-                size={24}
+                size="24"
                 sx={{ position: 'relative', top: 1, ml: 0.5, opacity: iconOpacity }}
               />
             </Box>
@@ -58,7 +58,7 @@ const InfoBar = () => {
               <Typography>{totals.mechanical}</Typography>
               <CustomSvgIcon
                 icon="gears"
-                size={12}
+                size="12"
                 sx={{ position: 'relative', top: 1, ml: 0.5, opacity: iconOpacity }}
               />
             </Box>
@@ -66,7 +66,7 @@ const InfoBar = () => {
               <Typography>{totals.electrical}</Typography>
               <CustomSvgIcon
                 icon="bolt"
-                size={12}
+                size="12"
                 sx={{ position: 'relative', top: 1, ml: 0.2, opacity: iconOpacity }}
               />
             </Box>
@@ -74,7 +74,7 @@ const InfoBar = () => {
               <Typography fontSize="1.5em">{totals.docks}</Typography>
               <CustomSvgIcon
                 icon="parking"
-                size={20}
+                size="20"
                 sx={{ position: 'relative', top: 1, opacity: iconOpacity }}
               />
             </Box>

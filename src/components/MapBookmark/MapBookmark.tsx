@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import CustomSvgIcon from '@components/Icons/CustomSvgIcon';
 import Button from '@mui/material/Button/Button';
 import { SxProps, Theme } from '@mui/material/styles';
 import { bookmarksSelector, updateBookmark } from '@store/bookmarks';
@@ -14,15 +15,15 @@ const sxCircleButton: SxProps<Theme> = {
   pointerEvents: 'auto',
 };
 
-const getBookmarkLabel = (type: BookmarkType) => {
+const getBookmarkIcon = (type: BookmarkType) => {
   switch (type) {
     case 'work':
-      return 'W';
+      return 'briefcase';
     case 'favorite':
-      return 'F';
+      return 'star';
     case 'home':
     default:
-      return 'H';
+      return 'home';
   }
 };
 
@@ -52,7 +53,7 @@ const MapBookmark: FC<{ type: BookmarkType }> = (props) => {
             : dispatch(setGMapsCenter({ center: currentValue, yOffset: 0 }));
         }}
       >
-        {getBookmarkLabel(type)}
+        <CustomSvgIcon icon={getBookmarkIcon(type)} size="14" />
       </Button>
     </>
   );

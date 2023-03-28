@@ -30,15 +30,15 @@ const CustomSvgIcon: FC<{
   sx?: SxProps<Theme>;
 }> = (props) => {
   const { icon, pathFill, size, sx: sxProps } = props;
-  const defaultSize = 24;
+  const defaultSize = '24px';
 
   const theme = useTheme();
   const svg = config[icon];
 
   const sizeSx = size
     ? {
-        width: +size,
-        height: +size,
+        width: `${+size}px`,
+        height: `${+size}px`,
       }
     : { width: defaultSize, height: defaultSize };
   const pathFillSx = pathFill ? { path: { fill: pathFill } } : {};

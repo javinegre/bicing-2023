@@ -46,7 +46,7 @@ const MapFilters = () => {
           dispatch(toggleFilter(BikeTypeFilterEnum.mechanical));
         }}
       >
-        <CustomSvgIcon icon="gears" size="16" sx={{ opacity: isBikesActive ? 1 : 0.5 }} />
+        <CustomSvgIcon icon="gears" size="22" sx={{ opacity: isBikesActive ? 1 : 0.5 }} />
       </Button>
       <Button
         variant="contained"
@@ -101,7 +101,7 @@ const MapFilters = () => {
             justifyContent: 'center',
           }}
         >
-          <CustomSvgIcon icon="bike" size="22" />
+          <CustomSvgIcon icon="bike" size="28" />
         </Box>
         <Box
           position="absolute"

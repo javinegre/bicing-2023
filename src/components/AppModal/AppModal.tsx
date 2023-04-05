@@ -1,6 +1,7 @@
 import React from 'react';
 import githubIconImgUrl from '@assets/icons/misc/github.svg?url';
 import javiNegreCodesImgUrl from '@assets/images/javi-negre-codes.svg?url';
+import CustomSvgIcon from '@components/Icons/CustomSvgIcon';
 import config from '@config';
 import { Link } from '@mui/material';
 import AppBar from '@mui/material/AppBar/AppBar';
@@ -12,7 +13,6 @@ import Divider from '@mui/material/Divider/Divider';
 import IconButton from '@mui/material/IconButton/IconButton';
 import List from '@mui/material/List/List';
 import ListItem from '@mui/material/ListItem/ListItem';
-import Stack from '@mui/material/Stack/Stack';
 import Toolbar from '@mui/material/Toolbar/Toolbar';
 import Typography from '@mui/material/Typography/Typography';
 import { type BookmarkType, bookmarksSelector, clearBookmark } from '@store/bookmarks';
@@ -40,7 +40,7 @@ const AppModal = () => {
             Bicing App (v{config.version})
           </Typography>
           <IconButton edge="start" color="inherit" onClick={_handleClose} aria-label="close">
-            {/* <CloseIcon /> */}X
+            <CustomSvgIcon icon="close" />
           </IconButton>
         </Toolbar>
       </AppBar>
@@ -49,37 +49,45 @@ const AppModal = () => {
         <List>
           <ListItem
             sx={{
+              width: '100%',
+              justifyContent: 'space-between',
               opacity: bookmarks.home ? 1 : 0.3,
               pointerEvents: bookmarks.home ? 'auto' : 'none',
             }}
           >
-            <Stack direction="row" alignItems="center">
+            <Box display="flex" alignItems="center">
+              <CustomSvgIcon icon="home" size="16" sx={{ mr: 1 }} />
               <Typography>Home location bookmark</Typography>
-              <Button onClick={_clearBookmark('home')}>Clear</Button>
-            </Stack>
+            </Box>
+            <Button onClick={_clearBookmark('home')}>Clear</Button>
           </ListItem>
           <ListItem
             sx={{
+              width: '100%',
+              justifyContent: 'space-between',
               opacity: bookmarks.work ? 1 : 0.3,
               pointerEvents: bookmarks.work ? 'auto' : 'none',
             }}
           >
-            <Stack direction="row" alignItems="center">
+            <Box display="flex" alignItems="center">
+              <CustomSvgIcon icon="briefcase" size="16" sx={{ mr: 1 }} />
               <Typography>Work location bookmark</Typography>
-              <Button onClick={_clearBookmark('work')}>Clear</Button>
-            </Stack>
+            </Box>
+            <Button onClick={_clearBookmark('work')}>Clear</Button>
           </ListItem>
           <ListItem
             sx={{
+              width: '100%',
+              justifyContent: 'space-between',
               opacity: bookmarks.favorite ? 1 : 0.3,
               pointerEvents: bookmarks.favorite ? 'auto' : 'none',
             }}
           >
-            <Stack direction="row" alignItems="center">
+            <Box display="flex" alignItems="center">
+              <CustomSvgIcon icon="star" size="16" sx={{ mr: 1 }} />
               <Typography>Favorite location bookmark</Typography>
-
-              <Button onClick={_clearBookmark('favorite')}>Clear</Button>
-            </Stack>
+            </Box>
+            <Button onClick={_clearBookmark('favorite')}>Clear</Button>
           </ListItem>
         </List>
 

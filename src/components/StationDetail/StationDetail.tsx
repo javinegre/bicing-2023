@@ -40,17 +40,17 @@ const StationDetail: FC<StationDetailProps> = (props) => {
             <Typography fontSize="1.8em">{station.mechanical + station.electrical}</Typography>
             <CustomSvgIcon
               icon="bike"
-              size="24"
-              sx={{ position: 'relative', top: 1, ml: 0.5, opacity: iconOpacity }}
+              size="30"
+              sx={{ position: 'relative', top: 2, ml: 0.5, opacity: iconOpacity }}
             />
           </Box>
           <Box display="flex" alignItems="center" mr={1}>
             <Typography fontSize="1.2em">{station.mechanical}</Typography>
-            <CustomSvgIcon icon="gears" size="12" sx={{ ml: 0.5, opacity: iconOpacity }} />
+            <CustomSvgIcon icon="gears" size="16" sx={{ top: 1, ml: 0.5, opacity: iconOpacity }} />
           </Box>
           <Box display="flex" alignItems="center">
             <Typography fontSize="1.2em">{station.electrical}</Typography>
-            <CustomSvgIcon icon="bolt" size="12" sx={{ ml: 0.2, opacity: iconOpacity }} />
+            <CustomSvgIcon icon="bolt" size="14" sx={{ ml: 0.2, opacity: iconOpacity }} />
           </Box>
         </Box>
         <Box display="flex" alignItems="center">

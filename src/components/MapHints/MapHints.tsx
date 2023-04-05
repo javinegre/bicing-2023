@@ -12,21 +12,21 @@ const MapHints: FC = () => {
 
   return (
     <>
-      {nearbyAreaDiameter ? (
-        <Box
-          sx={{
-            position: 'absolute',
-            top: 0,
-            bottom: 0,
-            left: 0,
-            right: 0,
-            zIndex: 4,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            pointerEvents: 'none',
-          }}
-        >
+      <Box
+        sx={{
+          position: 'absolute',
+          top: 0,
+          bottom: 0,
+          left: 0,
+          right: 0,
+          zIndex: 4,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          pointerEvents: 'none',
+        }}
+      >
+        {nearbyAreaDiameter ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width={nearbyAreaDiameter}
@@ -45,9 +45,9 @@ const MapHints: FC = () => {
               strokeDasharray="5"
             />
           </svg>
-          <img style={{ position: 'absolute' }} src={CrossHairIconSvg} alt="Your SVG" />
-        </Box>
-      ) : null}
+        ) : null}
+        <img style={{ position: 'absolute' }} src={CrossHairIconSvg} alt="Your SVG" />
+      </Box>
     </>
   );
 };

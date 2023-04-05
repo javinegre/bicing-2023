@@ -9,6 +9,11 @@ const themeOptions: ThemeOptions = {
     secondary: {
       main: '#ffc400',
     },
+    statusBar: {
+      mechanical: '#FF0000',
+      electrical: '#FFCC00',
+      docks: '#808080',
+    },
   },
   typography: {
     fontFamily: ['Barlow', 'sans-serif'].join(','),

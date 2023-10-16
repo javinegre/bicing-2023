@@ -3,6 +3,9 @@ import { PaletteOptions } from '@mui/material/styles/createPalette';
 
 declare module '@mui/material/styles/createPalette' {
   export interface Palette {
+    gradients: {
+      main: string;
+    };
     statusBar: {
       mechanical: string;
       electrical: string;
@@ -11,6 +14,9 @@ declare module '@mui/material/styles/createPalette' {
   }
 
   export interface PaletteOptions {
+    gradients: {
+      main: string;
+    };
     statusBar: {
       mechanical: string;
       electrical: string;

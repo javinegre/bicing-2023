@@ -4,10 +4,13 @@ const themeOptions: ThemeOptions = {
   palette: {
     mode: 'dark',
     primary: {
-      main: '#f44336',
+      main: '#c11104',
     },
     secondary: {
       main: '#ffc400',
+    },
+    gradients: {
+      main: 'linear-gradient(135deg, rgba(193,17,4,1) 0%, rgba(255,34,74,1) 100%)',
     },
     statusBar: {
       mechanical: '#FF0000',

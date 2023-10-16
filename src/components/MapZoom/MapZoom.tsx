@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import config from '@config';
 import Slider from '@mui/material/Slider/Slider';
-import { SxProps, Theme } from '@mui/material/styles';
+import { SxProps, Theme, useTheme } from '@mui/material/styles';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { mapZoomSelector, setGMapsZoom, setZoom } from '@store/map';
 
@@ -12,6 +12,8 @@ const sx: SxProps<Theme> = {
 
 const MapZoom = () => {
   const defaultZoom = config.app.mapOptions.zoom;
+
+  const theme = useTheme();
 
   const mapZoom = useAppSelector(mapZoomSelector);
 
@@ -26,7 +28,21 @@ const MapZoom = () => {
   );
 
   return (
-    <Slider orientation="vertical" sx={sx} min={12} max={17} value={mapZoom} onChange={_onChange} />
+    <Slider
+      orientation="vertical"
+      sx={sx}
+      min={12}
+      max={17}
+      value={mapZoom}
+      onChange={_onChange}
+      componentsProps={{
+        thumb: {
+          style: {
+            background: theme.palette.gradients.main,
+          },
+        },
+      }}
+    />
   );
 };
 

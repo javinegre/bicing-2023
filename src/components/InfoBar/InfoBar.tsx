@@ -11,33 +11,40 @@ import useTheme from '@mui/material/styles/useTheme';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { mapCenterSelector } from '@store/map';
 import { openModal, viewModeSelector } from '@store/ui';
-
-const sx: SxProps<Theme> = {
-  position: 'absolute',
-  top: 8,
-  left: 8,
-  right: 8,
-  minHeight: 44,
-  px: 1.5,
-  py: 0.5,
-  zIndex: 2,
-};
+import { bikeTypeFilterSelector, resourceShownSelector } from '@store/ui';
+import { BikeTypeFilterEnum, StationResourceTypeEnum } from 'src/types';
 
 const InfoBar = () => {
   const dispatch = useAppDispatch();
   const center = useAppSelector(mapCenterSelector);
   const viewMode = useAppSelector(viewModeSelector);
+  const resourceShown = useAppSelector(resourceShownSelector);
+  const bikeTypeFilter = useAppSelector(bikeTypeFilterSelector);
   const theme = useTheme();
 
   const stations = useStation();
 
   const totals = useMemo(() => getResourceTotals(stations, center), [stations, center]);
 
-  sx.bgcolor = theme.palette.primary.main;
-  sx.transform = viewMode === 'detail' ? 'translateY(-100px)' : 'translateY(0)';
-  sx.transition = theme.transitions.create(['transform']);
+  const sx: SxProps<Theme> = useMemo(
+    () => ({
+      position: 'absolute',
+      top: 8,
+      left: 8,
+      right: 8,
+      minHeight: 44,
+      px: 1.5,
+      py: 0.5,
+      zIndex: 2,
+      bgcolor: theme.palette.primary.main,
+      background: theme.palette.gradients.main,
+      transform: viewMode === 'detail' ? 'translateY(-100px)' : 'translateY(0)',
+      transition: theme.transitions.create(['transform']),
+    }),
+    [theme, viewMode]
+  );
 
-  const iconOpacity = 0.6;
+  const iconOpacity = 0.4;
 
   const _openAppModal = () => {
     dispatch(openModal());
@@ -50,7 +57,17 @@ const InfoBar = () => {
           {totals ? (
             <>
               <Box display="flex" alignItems="center" mr={1}>
-                <Typography fontSize="1.5em">{totals.mechanical + totals.electrical}</Typography>
+                <Typography
+                  fontSize="1.5em"
+                  sx={{
+                    opacity:
+                      resourceShown === StationResourceTypeEnum.bikes && bikeTypeFilter === null
+                        ? 1
+                        : iconOpacity,
+                  }}
+                >
+                  {totals.mechanical + totals.electrical}
+                </Typography>
                 <CustomSvgIcon
                   icon="bike"
                   size="30"
@@ -58,7 +75,17 @@ const InfoBar = () => {
                 />
               </Box>
               <Box display="flex" alignItems="center" mr={1}>
-                <Typography>{totals.mechanical}</Typography>
+                <Typography
+                  sx={{
+                    opacity:
+                      resourceShown === StationResourceTypeEnum.bikes &&
+                      bikeTypeFilter !== BikeTypeFilterEnum.electrical
+                        ? 1
+                        : iconOpacity,
+                  }}
+                >
+                  {totals.mechanical}
+                </Typography>
                 <CustomSvgIcon
                   icon="gears"
                   size="16"
@@ -66,7 +93,17 @@ const InfoBar = () => {
                 />
               </Box>
               <Box display="flex" alignItems="center" mr={2}>
-                <Typography>{totals.electrical}</Typography>
+                <Typography
+                  sx={{
+                    opacity:
+                      resourceShown === StationResourceTypeEnum.bikes &&
+                      bikeTypeFilter !== BikeTypeFilterEnum.mechanical
+                        ? 1
+                        : iconOpacity,
+                  }}
+                >
+                  {totals.electrical}
+                </Typography>
                 <CustomSvgIcon
                   icon="bolt"
                   size="12"
@@ -74,7 +111,14 @@ const InfoBar = () => {
                 />
               </Box>
               <Box display="flex" alignItems="center">
-                <Typography fontSize="1.5em">{totals.docks}</Typography>
+                <Typography
+                  fontSize="1.5em"
+                  sx={{
+                    opacity: resourceShown === StationResourceTypeEnum.docks ? 1 : iconOpacity,
+                  }}
+                >
+                  {totals.docks}
+                </Typography>
                 <CustomSvgIcon
                   icon="parking"
                   size="20"

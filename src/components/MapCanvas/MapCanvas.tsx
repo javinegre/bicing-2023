@@ -78,7 +78,7 @@ const MapCanvas: FC = () => {
         if (bookmarkMarker) {
           bookmarkMarker.setPosition(bookmarkLocation);
         } else {
-          bookmarkMarker = new google.maps.Marker({
+          bookmarkMarkers.current[bookmarkType] = new google.maps.Marker({
             map: mapHandler as google.maps.Map,
             position: bookmarkLocation,
             icon: getBookmarkMarker(bookmarkType),

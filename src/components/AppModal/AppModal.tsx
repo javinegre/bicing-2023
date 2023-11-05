@@ -36,7 +36,7 @@ const AppModal = () => {
     <Dialog open={modalShown} fullScreen>
       <AppBar sx={{ position: 'relative' }}>
         <Toolbar>
-          <img src="public/logo192.png" width="42px" height="42px" alt="App Icon" />
+          <img src="logo192.png" width="42px" height="42px" alt="App Icon" />
           <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
             Bicing App (v{config.version})
           </Typography>
